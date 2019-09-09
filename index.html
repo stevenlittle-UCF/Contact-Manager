@@ -1,0 +1,47 @@
+<?php
+	session_start();
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Contact Manager</title>
+	<script src="API/Main.js"></script>
+</head>
+<body>
+	<header>
+		<nav>
+			<a href="#">
+				<img src="img/logo.png" alt="logo">
+			</a>
+			<ul>
+				<li><button id="displayHome" type="button" class="buttons" onclick="goHome();">Home</button></li>
+				<li><button id="displaySignup" type="button" class="buttons" onclick="doSignup(false);">Signup</button></li>
+			</ul>
+			<div id="logInField">
+				<span id="logInTitle">Please Log In</span>
+				<input type="text" id="log_uid" placeholder="Username"/>
+				<input type="password" id="log_password" placeholder="Password"/>
+				<button type="button" id="logInButton" class="buttons" onclick="doLogin();">Login</button>
+				<span id="logInResult"></span>
+			</div>
+			<div id="logOutField" style="display:none; visibility:hidden;">
+				<span id="logOutTitle">You are logged in</span>
+				<button type="button" id="logOutButton" class="buttons" onclick="doLogout()" >Logout</button>
+			</div>
+		</nav>
+	</header>
+
+	<div id="signupField" style="display:none; visibility:hidden;">
+		<span>Please enter all the information</span><br />
+		<input type="text" id="sign_uid" placeholder="Username"/>
+		<input type="text" id="sign_mail" placeholder="Email"/>
+		<input type="password" id="sign_pwd" placeholder="Password"/>
+		<input type="password" id="sign_pwdr" placeholder="Retype password"/><br />
+		<button type="button" class="buttons" id="signUpButton" onclick="doSignup(true);">SignUp</button><br />
+		<span id="signupResult"></span>
+	</div>
+	<span id="genMsg"></span>
+</body>
