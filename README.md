@@ -1,15 +1,16 @@
 # Contact-Manager
 TODOS:
 
-    - login/sign up page
+    - --login/sign up page
         - need users table in the DB
             - need fields for username, pw (hashed), and a foreing key (to link the username to their contacts for querying )
         - html forms 
         - php code to post username, pwd
         - php code to query the DB and authenticate 
         - the CSS for the login page
-    - contacts stuff
+    - contacts stuff TODO: josh
         - contacts table in the DB
+            - dbh.php
             - a contact could look something like this
                 - foreing key
                 - name
