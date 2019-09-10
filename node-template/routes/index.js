@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 var fs = require('fs');
 
+
+
 //var contacts - ;
 
 router.get('/', function (req, res, next) { //root dir route
@@ -12,10 +14,20 @@ router.get('/', function (req, res, next) { //root dir route
   }
   );
 });
+router.get('/login/:id', function(req, res, next) {});
 
-//router.get('/login/:id', function(req, res, next) {});
+router.get('/add', function(req, res, next) {});
 
-//router.get('/contacts:id', function(req, res, next) {});
+
+router.get('/contacts', function(req, res, next) {
+  //get contacts from aws api.. 
+  var contacts_json = JSON.parse(fs.readFileSync('./data/contacts.json', 'utf8'));  //mimic what API returns
+  res.render('contacts', {
+    title: 'AWS RESULT',
+    contacts: contacts_json
+  });
+
+});
 
 //router.get('/remove/:id', function(req, res, next) {});
 

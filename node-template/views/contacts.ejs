@@ -1,0 +1,23 @@
+    <% for (var i = 0; i < contacts.length; i++) { %>
+    <div>
+        <ul>
+            <h3>user id(of owner)</h3> <%= contacts[i].user_id %>
+        </ul>
+        <ul>
+            <h3>first name</h3> <%= contacts[i].first_name %>
+        </ul>
+        <ul>
+            <h3>last name</h3> <%= contacts[i].last_name %>
+        </ul>
+        <ul>
+            <h3>email</h3> <%= contacts[i].email %>
+        </ul>
+        <ul>
+            <h3>state</h3> <%= contacts[i].state %>
+        </ul>
+        <ul>
+            <h3>image</h3> <%= contacts[i].image %>
+        </ul>
+        </div>
+    <% } %>
+
