@@ -10,7 +10,6 @@ UserItem={
     "password" : "password123",
     "image" : "path/to/image"
     }
-)
 
 ContactItem={
     "user_id": "john",
