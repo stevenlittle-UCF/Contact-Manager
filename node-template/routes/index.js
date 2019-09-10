@@ -14,10 +14,22 @@ router.get('/', function (req, res, next) { //root dir route
   }
   );
 });
-router.get('/login/:id', function(req, res, next) {});
+router.get('/register', function(req, res, next) {
+  res.render('register', {
+    title: 'AWS RESULT',
+  });
+
+});
 
 router.get('/add', function(req, res, next) {});
 
+
+router.get('/login', function(req, res, next) {
+  res.render('login', {
+    title: 'AWS RESULT',
+  });
+
+});
 
 router.get('/contacts', function(req, res, next) {
   //get contacts from aws api.. 
