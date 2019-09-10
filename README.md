@@ -1,4 +1,30 @@
 # Contact-Manager
+
+JSON:
+
+UserItem={
+    "user_id": "john",
+    "first_name": "john",
+    "last_name": "doe",
+    "email": "john@example.com",
+    "password" : "password123",
+    "image" : "path/to/image"
+    }
+)
+
+ContactItem={
+    "user_id": "john",
+    "first_name": "john",
+    "last_name": "doe",
+    "email": "john@example.com",
+    "street": "900 Old Town Road",
+    "state": "GA",
+    "city": "Atlanta",
+    "image" : "path/to/image"
+    }
+
+
+
 TODOS:
 
     - --login/sign up page
