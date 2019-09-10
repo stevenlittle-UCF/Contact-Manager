@@ -1,7 +1,7 @@
 # Contact-Manager
 
 JSON:
-
+```
 UserItem={
     "user_id": "john",
     "first_name": "john",
@@ -22,7 +22,7 @@ ContactItem={
     "city": "Atlanta",
     "image" : "path/to/image"
     }
-
+```
 
 
 TODOS:
