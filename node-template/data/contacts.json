@@ -1,0 +1,32 @@
+[
+    {
+    "user_id": "john",
+    "first_name": "john",
+    "last_name": "doe",
+    "email": "john@example.com",
+    "street": "900 Old Town Road",
+    "state": "GA",
+    "city": "Atlanta",
+    "image" : "path/to/image"
+    },
+    {
+        "user_id": "Katy",
+        "first_name": "Katherine",
+        "last_name": "Perry",
+        "email": "k8n@example.com",
+        "street": "Awesome Blvd",
+        "state": "GA",
+        "city": "Macon",
+        "image" : "path/to/image"
+    },
+    {
+        "user_id": "Jimmy",
+        "first_name": "Jimmy",
+        "last_name": "Kimmel",
+        "email": "jkim@gmail.com",
+        "street": "400 TS Ave",
+        "state": "NY",
+        "city": "Manhattan",
+        "image" : "path/to/image"
+    }
+]
