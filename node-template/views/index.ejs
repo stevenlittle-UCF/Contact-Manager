@@ -10,13 +10,20 @@
   </head>
   <body>
 
-  <a href="/login" role="button"> login</a>
-  <a href="/register" role="button">register </a>
-  <a href="/contacts" role="button"> view contacts</a>
-  <a href="/add" role="button"> add contact </a>
+	  <a href="/login" role="button"> login</a>
+	  <a href="/register" role="button">register </a>
+	  <a href="/contacts" role="button">contacts </a>
+	<form action="/" method="post">
+	  <input name="target" type="text" class="ghost-input" placeholder="Username" required>
+	  <input type="submit" class="ghost-button" value=" ">
+	</form>
+	<form action="/" method="post">
+	  <input name="target" type="text" class="ghost-input" placeholder="Password" required>
+	  <input type="submit" class="ghost-button" value=" ">
+	</form>
 
 
-  functions in /routes/ manage changing the views when these are interacted with. For example, clicking contacts calls router.get('/contacts') and '/contacts' refers to the contacts.ejs view in views/
+	  functions in /routes/ manage changing the views when these are interacted with. For example, clicking contacts calls router.get('/contacts') and '/contacts' refers to the contacts.ejs view in views/
     </body>
 </html>
 
