@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Contact Manager</title>
+</head>
+<body>
+	<header>
+		<nav>
+			<a href="#">
+				<!-- <img src="img/logo.png" alt="logo"> -->
+			</a>
+			<ul>
+				<li><button id="displayHome" type="button" class="buttons" onclick="goHome();">Home</button></li>
+				<li><button id="displaySignup" type="button" class="buttons" onclick="doSignup(false);">Signup</button></li>
+			</ul>
+			<div id="logInField">
+				<span id="logInTitle">Please Log In</span>
+				<input type="text" id="log_uid" placeholder="Username"/>
+				<input type="password" id="log_password" placeholder="Password"/>
+				<button type="button" id="logInButton" class="buttons" onclick="doLogin();">Login</button>
+				<span id="logInResult"></span>
+			</div>
+			<div id="logOutField" style="display:none; visibility:hidden;">
+				<span id="logOutTitle">You are logged in</span>
+				<button type="button" id="logOutButton" class="buttons" onclick="doLogout()" >Logout</button>
+			</div>
+		</nav>
+	</header>
+
+	<div id="signupField" style="display:none; visibility:hidden;">
+		<span>Please enter all the information</span><br />
+		<input type="text" id="sign_uid" placeholder="Username"/>
+		<input type="text" id="sign_mail" placeholder="Email"/>
+		<input type="password" id="sign_pwd" placeholder="Password"/>
+		<input type="password" id="sign_pwdr" placeholder="Retype password"/><br />
+		<button type="button" class="buttons" id="signUpButton" onclick="doSignup(true);">SignUp</button><br />
+		<span id="signupResult"></span>
+	</div>
+	<span id="genMsg"></span>
+</body>
+  <script>
+    function doLogin()
+    {
+      var xhr = new XMLHttpRequest();
+      xhr.open('post', '/', true);
+      xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
+      xhr.onload = function()
+      {
+        if (this.responseText == 200)
+        {
+          document.getElementById("genMsg").innerHTML = "It worked";
+          return;
+        }
+      }
+
+      xhr.send("");
+    }
+
+    // if this function recieves false it displays the signup boxes
+// if this function recieves true it processes the sigup
+function doSignup(val)
+{
+	if (!val)
+	{
+		hideOrShow("signupField", true);
+		hideOrShow("displaySignup", false);
+		return;
+	}
+
+	// store the information passed
+	var JSuid = document.getElementById("sign_uid").value;
+	var JSmail = document.getElementById("sign_mail").value;
+	var JSpwd = document.getElementById("sign_pwd").value;
+	var JSpwdr = document.getElementById("sign_pwdr").value;
+
+  // from this point we can call the signup php using ajax
+  
+  if (JSpwd != JSpwdr)
+  {
+    return "pwd no match";
+  }
+
+  // hash
+
+	// form the params for the call
+	var params = JSON.stringify(
+    {
+      logic: 'signup',
+      uid: JSuid,
+      mail: JSmail,
+      pwd: 'temp'
+    }
+  );
+
+	// start ajax call
+	var xhr = new XMLHttpRequest();
+	xhr.open('post', '/', true);
+	xhr.setRequestHeader('Content-type', 'application/json');
+
+	xhr.onload = function()
+	{
+		// get this response it will either be an error msg or 1
+		var response = this.responseText;
+
+		// this represents a success
+		if (response == 1)
+		{
+			document.getElementById("genMsg").innerHTML = "Signup successful!";
+			hideOrShow("signupField", false);
+			hideOrShow("displaySignup", true);
+			return;
+		}
+
+		// show error messages
+		document.getElementById("signupResult").innerHTML = this.responseText;
+	}
+
+	xhr.send(params);
+}
+
+// toggle visablity of elements thanks professor
+function hideOrShow( elementId, showState )
+{
+	var vis = "visible";
+	var dis = "block";
+	if( !showState )
+	{
+		vis = "hidden";
+		dis = "none";
+	}
+	
+	document.getElementById( elementId ).style.visibility = vis;
+	document.getElementById( elementId ).style.display = dis;
+}
+  </script>
+</html>
+
+
