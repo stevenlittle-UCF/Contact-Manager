@@ -4,6 +4,11 @@ var bodyParser = require('body-parser');
 var request = require('request');
 var index = require('./routes/index');
 var app = express();
+
+// this is part of sessions
+// https://stackoverflow.com/questions/25590969/node-js-expressjs-create-session
+var session = require('express-session');
+app.use(session({secret: 'ssshhhhh', saveUninitialized: true, resave: true}));
 // todo sessions
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

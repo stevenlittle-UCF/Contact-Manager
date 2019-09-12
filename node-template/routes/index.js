@@ -1,6 +1,12 @@
 var express = require('express');
 var router = express.Router();
 var fs = require('fs');
+var session = require('express-session');
+var app = express();
+
+app.use(session({secret: 'ssshhhhh', saveUninitialized: true, resave: true}));
+
+var sess;
 
 
 // var API = require('../models/Main');
@@ -9,15 +15,25 @@ var fs = require('fs');
 
 router.get('/', function (req, res, next) { //root dir route
 
-  res.render('index', 
-  { 
-    title: 'Sample',
+  sess=req.session;
+  sess.uid="test";
+
+  if (sess.uid)
+  {
+    res.redirect('/register');
   }
-  );
+  else
+  {
+    res.render('index', 
+    { 
+      title: 'Sample',
+    });
+  }
 });
 
 router.post('/', function(req, res)
 {
+  sess=req.session;
   console.log(req.body);
   // var parsedJSON = JSON.parse(req.body);
   var request = req.body.logic;
@@ -27,6 +43,11 @@ router.post('/', function(req, res)
       console.log("in my logic");
       var output = signupLogin();
       res.send(output);
+      break;
+    case 'login':
+      sess.uid = req.body.uid;
+      console.log("redirect");
+      res.redirect('/register');
       break;
   }
 
@@ -44,9 +65,24 @@ var thisisafunction = function()
 };
 
 router.get('/register', function(req, res, next) {
-  res.render('register', {
-    title: 'AWS RESULT',
-  });
+  sess=req.session;
+
+  if (sess.email)
+  {
+    document.getElementById("test").innerHTML = "You are not logged int";
+    res.render('register', 
+    { 
+      title: 'Sample',
+    });
+  }
+  else
+  {
+    // document.getElementById("test").innerHTML = "You are not logged int";
+    res.render('register', 
+    { 
+      title: 'Sample',
+    });
+  }
 
 });
 
