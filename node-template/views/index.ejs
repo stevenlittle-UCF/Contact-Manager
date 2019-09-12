@@ -85,6 +85,7 @@
 			hideOrShow("displaySignup", false);
 			return;
 		}
+<<<<<<< HEAD
 
 		// store the information passed
 		var JSuid = document.getElementById("sign_uid").value;
@@ -117,6 +118,41 @@
 
 		xhr.onload = function()
 		{
+=======
+
+		// store the information passed
+		var JSuid = document.getElementById("sign_uid").value;
+		var JSmail = document.getElementById("sign_mail").value;
+		var JSpwd = document.getElementById("sign_pwd").value;
+		var JSpwdr = document.getElementById("sign_pwdr").value;
+
+		// from this point we can call the signup php using ajax
+		
+		if (JSpwd != JSpwdr)
+		{
+			return "pwd no match";
+		}
+
+		// hash
+
+		// form the params for the call
+		var params = JSON.stringify(
+		{
+		logic: 'signup',
+		uid: JSuid,
+		mail: JSmail,
+		pwd: 'temp'
+		}
+		);
+
+		// start ajax call
+		var xhr = new XMLHttpRequest();
+		xhr.open('post', '/', true);
+		xhr.setRequestHeader('Content-type', 'application/json');
+
+		xhr.onload = function()
+		{
+>>>>>>> d61ce2ba36aad45d390e75c5f33f6a8b834492db
 			// get this response it will either be an error msg or 1
 			var response = this.responseText;
 
@@ -136,7 +172,11 @@
 		xhr.send(params);
 	}
 
+<<<<<<< HEAD
 		// toggle visablity of elements thanks professor
+=======
+	// toggle visablity of elements thanks professor
+>>>>>>> d61ce2ba36aad45d390e75c5f33f6a8b834492db
 	function hideOrShow( elementId, showState )
 	{
 		var vis = "visible";
@@ -146,7 +186,11 @@
 			vis = "hidden";
 			dis = "none";
 		}
+<<<<<<< HEAD
 
+=======
+		
+>>>>>>> d61ce2ba36aad45d390e75c5f33f6a8b834492db
 		document.getElementById( elementId ).style.visibility = vis;
 		document.getElementById( elementId ).style.display = dis;
 	}
