@@ -61,81 +61,81 @@
     }
 
     // if this function recieves false it displays the signup boxes
-// if this function recieves true it processes the sigup
-function doSignup(val)
-{
-	if (!val)
+	// if this function recieves true it processes the sigup
+	function doSignup(val)
 	{
-		hideOrShow("signupField", true);
-		hideOrShow("displaySignup", false);
-		return;
-	}
-
-	// store the information passed
-	var JSuid = document.getElementById("sign_uid").value;
-	var JSmail = document.getElementById("sign_mail").value;
-	var JSpwd = document.getElementById("sign_pwd").value;
-	var JSpwdr = document.getElementById("sign_pwdr").value;
-
-  // from this point we can call the signup php using ajax
-  
-  if (JSpwd != JSpwdr)
-  {
-    return "pwd no match";
-  }
-
-  // hash
-
-	// form the params for the call
-	var params = JSON.stringify(
-    {
-      logic: 'signup',
-      uid: JSuid,
-      mail: JSmail,
-      pwd: 'temp'
-    }
-  );
-
-	// start ajax call
-	var xhr = new XMLHttpRequest();
-	xhr.open('post', '/', true);
-	xhr.setRequestHeader('Content-type', 'application/json');
-
-	xhr.onload = function()
-	{
-		// get this response it will either be an error msg or 1
-		var response = this.responseText;
-
-		// this represents a success
-		if (response == 1)
+		if (!val)
 		{
-			document.getElementById("genMsg").innerHTML = "Signup successful!";
-			hideOrShow("signupField", false);
-			hideOrShow("displaySignup", true);
+			hideOrShow("signupField", true);
+			hideOrShow("displaySignup", false);
 			return;
 		}
 
-		// show error messages
-		document.getElementById("signupResult").innerHTML = this.responseText;
+		// store the information passed
+		var JSuid = document.getElementById("sign_uid").value;
+		var JSmail = document.getElementById("sign_mail").value;
+		var JSpwd = document.getElementById("sign_pwd").value;
+		var JSpwdr = document.getElementById("sign_pwdr").value;
+
+		// from this point we can call the signup php using ajax
+		
+		if (JSpwd != JSpwdr)
+		{
+			return "pwd no match";
+		}
+
+		// hash
+
+		// form the params for the call
+		var params = JSON.stringify(
+		{
+		logic: 'signup',
+		uid: JSuid,
+		mail: JSmail,
+		pwd: 'temp'
+		}
+		);
+
+		// start ajax call
+		var xhr = new XMLHttpRequest();
+		xhr.open('post', '/', true);
+		xhr.setRequestHeader('Content-type', 'application/json');
+
+		xhr.onload = function()
+		{
+			// get this response it will either be an error msg or 1
+			var response = this.responseText;
+
+			// this represents a success
+			if (response == 1)
+			{
+				document.getElementById("genMsg").innerHTML = "Signup successful!";
+				hideOrShow("signupField", false);
+				hideOrShow("displaySignup", true);
+				return;
+			}
+
+			// show error messages
+			document.getElementById("signupResult").innerHTML = this.responseText;
+		}
+
+		xhr.send(params);
 	}
 
-	xhr.send(params);
-}
-
-// toggle visablity of elements thanks professor
-function hideOrShow( elementId, showState )
-{
-	var vis = "visible";
-	var dis = "block";
-	if( !showState )
+	// toggle visablity of elements thanks professor
+	function hideOrShow( elementId, showState )
 	{
-		vis = "hidden";
-		dis = "none";
+		var vis = "visible";
+		var dis = "block";
+		if( !showState )
+		{
+			vis = "hidden";
+			dis = "none";
+		}
+		
+		document.getElementById( elementId ).style.visibility = vis;
+		document.getElementById( elementId ).style.display = dis;
 	}
-	
-	document.getElementById( elementId ).style.visibility = vis;
-	document.getElementById( elementId ).style.display = dis;
-}
   </script>
 </html>
 
