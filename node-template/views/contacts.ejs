@@ -1,27 +1,51 @@
-  <a href="/contacts" role="button"> view contacts</a>
-  <a href="/add" role="button"> add contact </a>
+<a href="/contacts" role="button"> view contacts</a>
+<a href="/add" role="button"> add contact </a>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+<div class="container" style="padding:50px 550px;">
+	<form role="form">
+		<div class="form-group">
+			<input type="input" class="form-control input-lg" id="txt-search" 
+			placeholder="Who to lookup?" autocomplete="off"> 
+		</div>
+	</form>
+	<div id="filter"></div>
+</div>
 
 
-    <% for (var i = 0; i < contacts.length; i++) { %>
-    <div>
-        <ul>
-            <h3>user id(of owner)</h3> <%= contacts[i].user_id %>
-        </ul>
-        <ul>
-            <h3>first name</h3> <%= contacts[i].first_name %>
-        </ul>
-        <ul>
-            <h3>last name</h3> <%= contacts[i].last_name %>
-        </ul>
-        <ul>
-            <h3>email</h3> <%= contacts[i].email %>
-        </ul>
-        <ul>
-            <h3>state</h3> <%= contacts[i].state %>
-        </ul>
-        <ul>
-            <h3>image</h3> <%= contacts[i].image %>
-        </ul>
-        </div>
-    <% } %>
+<!-- Receives 'contacts' obj from res.render, formats it back to a string for regex searching -->
+<script>
+
+	// Format 'contacts' object retrieved from aws api back to string for regex search
+	var contactList = <%-JSON.stringify(contacts)%>;
+
+	$('#txt-search').keyup(function()
+	{
+			var output = '';
+			var searchField = $(this).val();
+
+			if (searchField === '')
+			{
+				$('#filter').html('');
+				return;
+			}
+			else
+			{
+				var regex = new RegExp(searchField, "i");
+				$.each(contactList, function(index, val) 
+				{
+					if (val.first_name.search(regex) != -1 ||
+						val.last_name.search(regex) != -1)
+					{
+						output += '<h5>' + val.first_name +
+								  " " + val.last_name +
+								  '</h5>';
+					}
+				})
+			}
+			$('#filter').html(output);
+	});
+</script>
+
 
