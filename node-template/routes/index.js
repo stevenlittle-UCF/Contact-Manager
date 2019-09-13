@@ -3,20 +3,18 @@ var router = express.Router();
 var fs = require('fs');
 var session = require('express-session');
 var app = express();
+var validator = require('validator');
+var bcrypt = require('bcrypt');
 
 app.use(session({secret: 'ssshhhhh', saveUninitialized: true, resave: true}));
 
 var sess;
-
-
-// var API = require('../models/Main');
 
 //var contacts - ;
 
 router.get('/', function (req, res, next) { //root dir route
 
   sess=req.session;
-  sess.uid="test";
 
   if (sess.uid)
   {
@@ -31,70 +29,116 @@ router.get('/', function (req, res, next) { //root dir route
   }
 });
 
-router.post('/', function(req, res)
+// This is where the server side login script goes
+router.post('/login', function(req, res)
 {
-  sess=req.session;
-  console.log(req.body);
-  // var parsedJSON = JSON.parse(req.body);
-  var request = req.body.logic;
-  switch(request)
-  {
-    case 'signup':
-      console.log("in my logic");
-      var output = signupLogin();
-      res.send(output);
-      break;
-    case 'login':
-      sess.uid = req.body.uid;
-      console.log("redirect");
-      res.redirect('/register');
-      break;
-  }
+  sess = req.session;
 
+  var uName = req.body.uid;
+  var pwd = req.body.pwd;
+
+  // check if user exists
+
+  // verify password against hash
+  // use bcrypt
+
+  // if we get to this point the session needs creating
+
+  // this line would get the id for the user in the db
+  // var uid = 
+
+  sess.uName = uName;
+  // sess.uid = uid;
+
+  // route to the contacts page
+  // note for now goes to register as i am testing
+  // console.log(sess);
+  res.send("success");
 });
 
-var signupLogin = function()
+// This is where server side register script goes
+router.post('/register', function(req, res)
 {
-  // verify the info provided
-  // perform needed logic
-};
+  var uid = req.body.uid;
+  var mail = req.body.mail;
+  var pwd = req.body.pwd;
+  var pwdr = req.body.pwdr;
+  var first = req.body.first;
+  var last = req.body.last;
 
-var thisisafunction = function()
-{
-  console.log("I am in my function!");
-};
+  // check for blank fields
+  if (validator.isEmpty(uid) || validator.isEmpty(mail) || validator.isEmpty(pwd) || validator.isEmpty(pwdr))
+  {
+    res.send("Blank fields");
+  }
+  // check if pwds match
+  else if (pwd != pwdr)
+  {
+    res.send("pwd no match");
+  }
+  // validate email
+  else if (!validator.isEmail(mail))
+  {
+    res.send("invalid email");
+  }
+  // validate user
+  else if (!validator.isAlphanumeric(uid))
+  {
+    res.send("invalid user");
+  }
+  // check that the name provided is only alphabetic
+  else if (!validator.isAlpha(first) || !validator.isAlpha(last))
+  {
+    res.send("Please enter a valid name");
+  }
+  // run commands
+  else
+  {
+    var hashPwd;
+    bcrypt.hash(pwd, 10, function(err, hash)
+    {
+      hashPwd = hash;
+    });
+
+    // send stuff to db
+    var dbParams = JSON.stringify(
+    {
+      "user_id": uid,
+      "first_name": first,
+      "last_name": last,
+      "email": mail,
+      "password" : hashPwd,
+      "image" : "path/to/image"
+    });
+
+    res.send("success");
+  }
+});
 
 router.get('/register', function(req, res, next) {
-  sess=req.session;
-
-  if (sess.email)
+  res.render('register',
   {
-    document.getElementById("test").innerHTML = "You are not logged int";
-    res.render('register', 
-    { 
-      title: 'Sample',
-    });
+    title: 'Sample'
+  });
+});
+
+router.post('/amLogged', function(req, res)
+{
+  // get the session
+  sess = req.session;
+
+  // check if the session has a user defined
+  if (sess.uName)
+  {
+    res.send("true");
   }
   else
   {
-    // document.getElementById("test").innerHTML = "You are not logged int";
-    res.render('register', 
-    { 
-      title: 'Sample',
-    });
+    res.send("false");
   }
-
 });
 
 router.get('/add', function(req, res, next) {});
-
-
-router.get('/login', function(req, res, next) {
-  res.render('login', {
-    title: 'AWS RESULT',
-  });
-
-});
 
 router.get('/contacts', function(req, res, next) {
   //get contacts from aws api.. 

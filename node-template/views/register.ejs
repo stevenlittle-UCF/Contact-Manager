@@ -3,9 +3,35 @@
 <head>
 </head>
 
+<script>
+
+window.onload = load;
+    function load()
+    {
+		// build JSON
+		var params = JSON.stringify({});
+      	var xhr = new XMLHttpRequest();
+      	xhr.open('post', '/amLogged', true);
+      	xhr.setRequestHeader('Content-type', 'application/json');
+
+      	xhr.onload = function()
+      	{
+            var response = this.responseText;
+            console.log(response);
+            if (this.responseText == "true")
+            {
+                document.getElementById("test").innerHTML = "I am sess";
+            }
+            else
+            {
+                document.getElementById("test").innerHTML = ":(";
+            }
+      	}
+
+      	xhr.send(params);
+    }
+</script>
+
+
+
 <span id="test">You are not in a session</span>
-
-
-<body>
-register
-</body>
