@@ -29,6 +29,16 @@ router.get('/', function (req, res, next) { //root dir route
   }
 });
 
+// This is the logout function
+router.post('/logout', function(req, res)
+{
+  sess = req.session;
+
+  sess.destroy();
+
+  res.send("success");
+});
+
 // This is where the server side login script goes
 router.post('/login', function(req, res)
 {

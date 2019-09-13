@@ -66,11 +66,15 @@
       	{
         	if (this.responseText == "success")
         	{
-				  document.getElementById("genMsg").innerHTML = "Login successful";
-				  setTimeout(function()
-				  {
-					  window.location.href = "http://localhost:3000/register";
-				  }, 1000);
+				document.getElementById("genMsg").innerHTML = "Login successful";
+				hideOrShow("logInField", false);
+				hideOrShow("logOutField", true);
+				hideOrShow("displaySignup", false);
+				// this is where we will send the user to the contact manager
+				//   setTimeout(function()
+				//   {
+				// 	  window.location.href = "http://localhost:3000/register";
+				//   }, 1000);
           		return;
         	}
 
@@ -129,6 +133,12 @@
 				hideOrShow("signupField", false);
 				hideOrShow("displaySignup", true);
 				hideOrShow("logInField", true);
+				document.getElementById("sign_uid").value = "";
+				document.getElementById("sign_mail").value = "";
+				document.getElementById("sign_pwd").value = "";
+				document.getElementById("sign_pwdr").value = "";
+				document.getElementById("sign_first").value = "";
+				document.getElementById("sign_last").value = "";
 				return;
 			}
 
@@ -152,6 +162,80 @@
 		
 		document.getElementById( elementId ).style.visibility = vis;
 		document.getElementById( elementId ).style.display = dis;
+	}
+
+	// logout script which can be used else where
+	function doLogout()
+	{
+		var params = JSON.stringify({});
+
+		// start ajax call
+		var xhr = new XMLHttpRequest();
+		xhr.open('post', '/logout', true);
+		xhr.setRequestHeader('Content-type', 'application/json');
+
+		xhr.onload = function()
+		{
+			// this represents a success
+			if (this.responseText == "success")
+			{
+				document.getElementById("genMsg").innerHTML = "Logout successful!";
+				hideOrShow("signupField", false);
+				hideOrShow("displaySignup", true);
+				hideOrShow("logInField", true);
+				hideOrShow("logOutField", false);
+				return;
+			}
+
+			// show error messages
+			document.getElementById("genMsg").innerHTML = this.responseText;
+		}
+
+		xhr.send(params);
+	}
+
+	function goHome()
+	{
+		var params = JSON.stringify({});
+
+		// start ajax call
+		var xhr = new XMLHttpRequest();
+		xhr.open('post', '/home', true);
+		xhr.setRequestHeader('Content-type', 'application/json');
+
+		xhr.onload = function()
+		{
+			var response = this.responseText;
+			// if the user is not in a session redisplay index
+			if (response = "noSess")
+			{
+				hideOrShow("signupField", false);
+				hideOrShow("displaySignup", true);
+				hideOrShow("logInField", true);
+				hideOrShow("logOutField", false);
+				return;
+			}
+			else if (response = "Sess")
+			{
+				document.getElementById("genMsg").innerHTML = "Login successful";
+				hideOrShow("logInField", false);
+				hideOrShow("logOutField", true);
+				hideOrShow("displaySignup", false);
+				document.getElementById("log_uid").value = "";
+				document.getElementById("log_password").value = "";
+				// this is where we will send the user to the contact manager
+				//   setTimeout(function()
+				//   {
+				// 	  window.location.href = "http://localhost:3000/register";
+				//   }, 1000);
+          		return;
+			}
+
+			// show error messages
+			document.getElementById("genMsg").innerHTML = this.responseText;
+		}
+
+		xhr.send(params);
 	}
   </script>
 </html>
