@@ -1,3 +1,79 @@
+
+# API
+
+
+API
+
+
+login (POST):
+https://nckcvqqm1m.execute-api.us-east-2.amazonaws.com/dev/login
+
+returns: "SUCCESS" on 201
+
+post body json:
+
+{
+    "user_id": "test",
+    "pwd" : "pass"
+}
+
+
+register user (POST)
+
+https://nckcvqqm1m.execute-api.us-east-2.amazonaws.com/dev/users
+
+returns "user add" on 201
+
+
+{
+    "user_id" : "jimmy",
+    "first" : "Jim",
+    "last" : "kimmel",
+    "pwd" : "myhashedpw",
+    "mail" : "myemail@example.com"
+}
+
+
+add contact(POST) https://nckcvqqm1m.execute-api.us-east-2.amazonaws.com/dev/contactadd
+
+returns "contact added on 201
+
+{
+	"user_id" : "jimmy",
+    "first_name" : "Josh",
+    "last" : "S",
+    "mail" : "myemail@example.com",
+    "city" : "Orlando",
+    "state" : "Florida"
+    }
+
+
+
+lookup contacts (POST) https://nckcvqqm1m.execute-api.us-east-2.amazonaws.com/dev/lookup
+
+{ "user_id" : "userid" }
+
+returns an array of JSON contact objects
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # Contact-Manager
 TODOS:
 
