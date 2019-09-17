@@ -11,23 +11,15 @@ app.use(session({secret: 'ssshhhhh', saveUninitialized: true, resave: true}));
 
 var sess;
 
-//var contacts - ;
-
-router.get('/', function (req, res, next) { //root dir route
+router.get('/', function (req, res, next)  //root dir route
+{
 
   sess=req.session;
 
-  if (sess.uid)
-  {
-    res.redirect('/register');
-  }
-  else
-  {
-    res.render('index', 
-    { 
-      title: 'Sample',
-    });
-  }
+  res.render('index', 
+  { 
+    title: 'Sample',
+  });
 });
 
 // This is the logout function
@@ -43,17 +35,15 @@ router.post('/logout', function(req, res)
 // This is where the server side login script goes
 router.post('/login', function(req, res)
 {
+  // get the session
   sess = req.session;
 
+  // collect sent values
   var uName = req.body.uid;
   var pwd = req.body.pwd;
 
+  // used to store hashed value
   var hashed;
-
-  // bcrypt.compare(pwd, )
-
-  // verify password against hash
-  // use bcrypt
 
   // send stuff to db
   axios.post('https://nckcvqqm1m.execute-api.us-east-2.amazonaws.com/dev/login', 
@@ -63,12 +53,19 @@ router.post('/login', function(req, res)
   })
   .then(function (response) 
   {
+    // this call will return the hash for the user
     hashed = response;
+    
+    // compare the hash to the pwd
     bcrypt.compare(pwd, hashed, function(err, res) {
       if (res == true)
       {
         sess.uName = uid;
         res.send("success");
+      }
+      else
+      {
+        res.send("Bad pass");
       }
     })
   })
@@ -81,6 +78,7 @@ router.post('/login', function(req, res)
 // This is where server side register script goes
 router.post('/register', function(req, res)
 {
+  // Collect sent info
   var uid = req.body.uid;
   var mail = req.body.mail;
   var pwd = req.body.pwd;
@@ -116,12 +114,14 @@ router.post('/register', function(req, res)
   // run commands
   else
   {
-    var hashPwd = "test";
+    var hashPwd;
+    
+    // run the hash function
+    // note run the api call inside this to have it run
+    // in the correct order
     bcrypt.hash(pwd, 10, function(err, hash)
     {
       hashPwd = hash;
-
-      // console.log(hash);
 
       // send stuff to db
       axios.post('https://nckcvqqm1m.execute-api.us-east-2.amazonaws.com/dev/users', 
@@ -134,6 +134,7 @@ router.post('/register', function(req, res)
       })
       .then(function (response) 
       {
+        console.log(response);
         if (response.data == "user added")
         {
           res.send("Sign up successful");
@@ -144,7 +145,7 @@ router.post('/register', function(req, res)
         }
         else
         {
-          console.log(response.data);
+          // console.log(response.data);
           res.send("Unhandled response");
         }
       })
@@ -163,6 +164,7 @@ router.get('/register', function(req, res, next) {
   });
 });
 
+// this method checks that a session exists
 router.post('/amLogged', function(req, res)
 {
   // get the session
