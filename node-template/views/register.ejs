@@ -5,6 +5,8 @@
 
 <script>
 
+    var uName;
+
 window.onload = load;
     function load()
     {
@@ -18,13 +20,16 @@ window.onload = load;
       	{
             var response = this.responseText;
             console.log(response);
-            if (this.responseText == "true")
+            if (this.responseText == "ERROR #123")
             {
-                document.getElementById("test").innerHTML = "I am sess";
+                document.getElementById("test").innerHTML = "I am no sess";
+                // here
             }
             else
             {
-                document.getElementById("test").innerHTML = ":(";
+                uName = this.responseText;
+
+                // ajax call
             }
       	}
 

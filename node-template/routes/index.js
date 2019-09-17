@@ -5,6 +5,7 @@ var session = require('express-session');
 var app = express();
 var validator = require('validator');
 var bcrypt = require('bcrypt');
+var axios = require('axios');
 
 app.use(session({secret: 'ssshhhhh', saveUninitialized: true, resave: true}));
 
@@ -47,23 +48,34 @@ router.post('/login', function(req, res)
   var uName = req.body.uid;
   var pwd = req.body.pwd;
 
-  // check if user exists
+  var hashed;
+
+  // bcrypt.compare(pwd, )
 
   // verify password against hash
   // use bcrypt
 
-  // if we get to this point the session needs creating
-
-  // this line would get the id for the user in the db
-  // var uid = 
-
-  sess.uName = uName;
-  // sess.uid = uid;
-
-  // route to the contacts page
-  // note for now goes to register as i am testing
-  // console.log(sess);
-  res.send("success");
+  // send stuff to db
+  axios.post('https://nckcvqqm1m.execute-api.us-east-2.amazonaws.com/dev/login', 
+  {
+    "user_id": uName,
+    "pwd" : pwd
+  })
+  .then(function (response) 
+  {
+    hashed = response;
+    bcrypt.compare(pwd, hashed, function(err, res) {
+      if (res == true)
+      {
+        sess.uName = uid;
+        res.send("success");
+      }
+    })
+  })
+  .catch(function (error) 
+  {
+    console.log(error);
+  });
 });
 
 // This is where server side register script goes
@@ -104,24 +116,39 @@ router.post('/register', function(req, res)
   // run commands
   else
   {
-    var hashPwd;
+    var hashPwd = "test";
     bcrypt.hash(pwd, 10, function(err, hash)
     {
       hashPwd = hash;
-    });
 
-    // send stuff to db
-    var dbParams = JSON.stringify(
-    {
-      "user_id": uid,
-      "first_name": first,
-      "last_name": last,
-      "email": mail,
-      "password" : hashPwd,
-      "image" : "path/to/image"
-    });
+      // console.log(hash);
 
-    res.send("success");
+      // send stuff to db
+      axios.post('https://nckcvqqm1m.execute-api.us-east-2.amazonaws.com/dev/users', 
+      {
+        "user_id": uid,
+        "first": first,
+        "last": last,
+        "mail": mail,
+        "pwd" : hashPwd
+      })
+      .then(function (response) 
+      {
+        if (response.data == "user added")
+        {
+          res.send("Sign up successful");
+        }
+        else
+        {
+          console.log(response.data);
+          res.send("im here");
+        }
+      })
+      .catch(function (error) 
+      {
+        console.log(error);
+      });
+    });
   }
 });
 
@@ -140,11 +167,11 @@ router.post('/amLogged', function(req, res)
   // check if the session has a user defined
   if (sess.uName)
   {
-    res.send("true");
+    res.send(sess.uName);
   }
   else
   {
-    res.send("false");
+    res.send("ERROR #123");
   }
 });
 
