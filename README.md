@@ -23,6 +23,7 @@ register user (POST)
 https://nckcvqqm1m.execute-api.us-east-2.amazonaws.com/dev/users
 
 returns "user add" on 201
+on failure returns: ERROR 1 DUPLICATE USER
 ```
 
 {
