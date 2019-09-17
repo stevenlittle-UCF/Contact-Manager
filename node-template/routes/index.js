@@ -138,10 +138,14 @@ router.post('/register', function(req, res)
         {
           res.send("Sign up successful");
         }
+        else if (response.data == "ERROR 1 DUPLICATE USER")
+        {
+          res.send("That user already exists!");
+        }
         else
         {
           console.log(response.data);
-          res.send("im here");
+          res.send("Unhandled response");
         }
       })
       .catch(function (error) 
