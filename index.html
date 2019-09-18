@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Contact Manager</title>
+	
+<style>
+	
+body {
+	background-color: #2F4F4F;
+	text-align: center;
+	position: relative;
+	font-family:  Trebuchet MS;
+
+}
+
+ul {
+	list-style-type: none;
+	
+}	
+
+#displayHome {
+	font-size: 24xp;
+	border-radius: 4px;
+	border: 2px solid #000000;
+	background-color: white;
+	color: black;
+	box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+	width: 250px;
+	font-weight: bold;
+	
+
+}
+
+#displaySignup {
+	font-size: 24xp;
+	border-radius: 4px;
+	border: 2px solid #000000;
+	background-color: #CD5C5C;
+	color: black;
+	box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+	width: 250px;
+	font-weight: bold;
+
+}
+
+
+#cm {
+	color: #CD5C5C;
+	font-size: 70px;
+}
+
+#logInTitle {
+	font-size: 25px;
+	font-weight: bold;
+}
+
+#log_uid {
+	border-radius: 4px;
+}
+
+#log_password {
+	border-radius: 4px;
+}
+
+#logInButton {
+	font-size: 24xp;
+	border-radius: 4px;
+	border: 2px solid #000000;
+	background-color: #ffffff;
+	color: black;
+	box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+	width: 150px;
+	font-weight: bold;
+
+}
+
+#logOutButton {
+	font-size: 24xp;
+	border-radius: 4px;
+	border: 2px solid #000000;
+	background-color: #ffffff;
+	color: black;
+	box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+	width: 150px;
+	font-weight: bold;
+}
+
+#sign_uid {
+	border-radius: 4px;
+}
+
+#sign_first {
+	border-radius: 4px;
+}
+
+#sign_last {
+	border-radius: 4px;
+}
+
+#sign_mail {
+	border-radius: 4px;
+}
+
+#sign_pwd {
+	border-radius: 4px;
+}
+
+#sign_pwdr {
+	border-radius: 4px;
+}
+
+#inf {
+	font-size: 25px;
+	font-weight: bold;	
+}
+
+#signUpButton {
+	font-size: 24xp;
+	border-radius: 4px;
+	border: 2px solid #000000;
+	background-color: #CD5C5C;
+	color: black;
+	box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+	width: 250px;
+	font-weight: bold;
+
+}
+
+#lis {
+	height: 30px;
+}
+	
+	
+</style>
+</head>
+<body>
+	<header>
+		<nav>
+			<a href="#">
+				<!-- <img src="img/logo.png" alt="logo"> -->
+			</a>
+			
+			<ul class = nobull>
+				<!-- added -->
+				<h1 id="cm">Contact Manager<h1>
+				<!-- removed <li> -->
+				<li><button id="displayHome" type="button" class="buttons" onclick="goHome();">Home</button></li>
+				<li><button id="displaySignup" type="button" class="buttons" onclick="doSignup(false);">Signup</button></li>
+			</ul>
+			<div id="logInField">
+				<!--<span id="logInTitle">Please Log In:</span> -->
+				<input type="text" id="log_uid" placeholder="Username"/>
+				<input type="password" id="log_password" placeholder="Password"/>
+				<button type="button" id="logInButton" class="buttons" onclick="doLogin();">Login</button>
+				<span id="logInResult"></span>
+			</div>
+			<div id="logOutField" style="display:none; visibility:hidden;">
+				<span id="logOutTitle">You are logged in</span>
+				<button type="button" id="logOutButton" class="buttons" onclick="doLogout()" >Logout</button>
+			</div>
+		</nav>
+	</header>
+	
+	
+	<div id="signupField" style="display:none; visibility:hidden;">
+		<span id="inf">Please enter all the information: </span><br />
+		<br>
+		<ul>
+			<li id="lis"><input type="text" id="sign_uid" placeholder="Username"/></li>
+			<li id="lis"><input type="text" id="sign_first" placeholder="First Name"/></li>
+			<li id="lis"><input type="text" id="sign_last" placeholder="Last Name"/></li>
+			<li id="lis"><input type="text" id="sign_mail" placeholder="Email"/></li>
+			<li id="lis"><input type="password" id="sign_pwd" placeholder="Password"/></li>
+			<li id="lis"><input type="password" id="sign_pwdr" placeholder="Retype password"/></li>
+			<li><button type="button" class="buttons" id="signUpButton" onclick="doSignup(true);">SignUp</button></li>
+			<li><span id="genMsg"></span></li>
+		</ul>
+		<span id="signupResult"></span>
+	</div>
+	
+</body>
+  <script>
+    function doLogin()
+    {
+		// store the information to pass
+		var JSuid = document.getElementById("log_uid").value;
+		var JSpwd = document.getElementById("log_password").value;
+		// build JSON
+		var params = JSON.stringify(
+			{
+				logic: 'login',
+      			uid: JSuid,
+				pwd: JSpwd
+			}
+		)	
+      	var xhr = new XMLHttpRequest();
+      	xhr.open('post', '/login', true);
+      	xhr.setRequestHeader('Content-type', 'application/json');
+      	xhr.onload = function()
+      	{
+        	if (this.responseText == "success")
+        	{
+				document.getElementById("genMsg").innerHTML = "Login successful";
+				hideOrShow("logInField", false);
+				hideOrShow("logOutField", true);
+				hideOrShow("displaySignup", false);
+				// this is where we will send the user to the contact manager
+				//   setTimeout(function()
+				//   {
+				// 	  window.location.href = "http://localhost:3000/register";
+				//   }, 1000);
+          		return;
+        	}
+			document.getElementById("genMsg").innerHTML = this.responseText;
+      	}
+      	xhr.send(params);
+    }
+    // if this function recieves false it displays the signup boxes
+	// if this function recieves true it processes the sigup
+	function doSignup(val)
+	{
+		if (!val)
+		{
+			hideOrShow("signupField", true);
+			hideOrShow("displaySignup", false);
+			hideOrShow("logInField", false);
+			return;
+		}
+		// store the information passed
+		var JSuid = document.getElementById("sign_uid").value;
+		var JSmail = document.getElementById("sign_mail").value;
+		var JSpwd = document.getElementById("sign_pwd").value;
+		var JSpwdr = document.getElementById("sign_pwdr").value;
+		var JSfirst = document.getElementById("sign_first").value;
+		var JSlast = document.getElementById("sign_last").value;
+		// from this point we can call the signup php using ajax
+		// hash
+		// form the params for the call
+		var params = JSON.stringify(
+		{
+		uid: JSuid,
+		mail: JSmail,
+		pwd: JSpwd,
+		pwdr: JSpwdr,
+		first: JSfirst,
+		last: JSlast
+		});
+		// start ajax call
+		var xhr = new XMLHttpRequest();
+		xhr.open('post', '/register', true);
+		xhr.setRequestHeader('Content-type', 'application/json');
+		xhr.onload = function()
+		{
+			// this represents a success
+			if (this.responseText == "success")
+			{
+				document.getElementById("genMsg").innerHTML = "Signup successful!";
+				hideOrShow("signupField", false);
+				hideOrShow("displaySignup", true);
+				hideOrShow("logInField", true);
+				document.getElementById("sign_uid").value = "";
+				document.getElementById("sign_mail").value = "";
+				document.getElementById("sign_pwd").value = "";
+				document.getElementById("sign_pwdr").value = "";
+				document.getElementById("sign_first").value = "";
+				document.getElementById("sign_last").value = "";
+				return;
+			}
+			// show error messages
+			document.getElementById("signupResult").innerHTML = this.responseText;
+		}
+		xhr.send(params);
+	}
+	// toggle visablity of elements thanks professor
+	function hideOrShow( elementId, showState )
+	{
+		var vis = "visible";
+		var dis = "block";
+		if( !showState )
+		{
+			vis = "hidden";
+			dis = "none";
+		}
+		
+		document.getElementById( elementId ).style.visibility = vis;
+		document.getElementById( elementId ).style.display = dis;
+	}
+	// logout script which can be used else where
+	function doLogout()
+	{
+		var params = JSON.stringify({});
+		// start ajax call
+		var xhr = new XMLHttpRequest();
+		xhr.open('post', '/logout', true);
+		xhr.setRequestHeader('Content-type', 'application/json');
+		xhr.onload = function()
+		{
+			// this represents a success
+			if (this.responseText == "success")
+			{
+				document.getElementById("genMsg").innerHTML = "Logout successful!";
+				hideOrShow("signupField", false);
+				hideOrShow("displaySignup", true);
+				hideOrShow("logInField", true);
+				hideOrShow("logOutField", false);
+				return;
+			}
+			// show error messages
+			document.getElementById("genMsg").innerHTML = this.responseText;
+		}
+		xhr.send(params);
+	}
+	function goHome()
+	{
+		var params = JSON.stringify({});
+		// start ajax call
+		var xhr = new XMLHttpRequest();
+		xhr.open('post', '/home', true);
+		xhr.setRequestHeader('Content-type', 'application/json');
+		xhr.onload = function()
+		{
+			var response = this.responseText;
+			// if the user is not in a session redisplay index
+			if (response = "noSess")
+			{
+				hideOrShow("signupField", false);
+				hideOrShow("displaySignup", true);
+				hideOrShow("logInField", true);
+				hideOrShow("logOutField", false);
+				return;
+			}
+			else if (response = "Sess")
+			{
+				document.getElementById("genMsg").innerHTML = "Login successful";
+				hideOrShow("logInField", false);
+				hideOrShow("logOutField", true);
+				hideOrShow("displaySignup", false);
+				document.getElementById("log_uid").value = "";
+				document.getElementById("log_password").value = "";
+				// this is where we will send the user to the contact manager
+				//   setTimeout(function()
+				//   {
+				// 	  window.location.href = "http://localhost:3000/register";
+				//   }, 1000);
+          		return;
+			}
+			// show error messages
+			document.getElementById("genMsg").innerHTML = this.responseText;
+		}
+		xhr.send(params);
+	}
+  </script>
+</html>
