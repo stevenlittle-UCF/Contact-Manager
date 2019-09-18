@@ -134,7 +134,6 @@ router.post('/register', function(req, res)
       })
       .then(function (response) 
       {
-        console.log(response);
         if (response.data == "user added")
         {
           res.send("Sign up successful");
