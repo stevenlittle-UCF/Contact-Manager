@@ -4,6 +4,19 @@
 
 API
 
+delete contact (POST)
+
+https://nckcvqqm1m.execute-api.us-east-2.amazonaws.com/dev/contactdelete
+
+
+```
+{
+    "user_id": "test",
+    "first" : "firstnametodel",
+    "last" : "also need a last name",
+}
+```
+
 
 login (POST):
 https://nckcvqqm1m.execute-api.us-east-2.amazonaws.com/dev/login
