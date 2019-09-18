@@ -57,7 +57,7 @@ router.post('/login', function(req, res)
     hashed = response;
     
     // compare the hash to the pwd
-    bcrypt.compare(pwd, hashed, function(err, res) {
+    bcrypt.compare(pwd, hashed, function(err, res1) {
       if (res == true)
       {
         sess.uName = uid;
