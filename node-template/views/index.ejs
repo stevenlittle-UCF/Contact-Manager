@@ -12,6 +12,13 @@ body {
 	background-color: #2F4F4F;
 	text-align: center;
 	position: relative;
+	font-family:  Trebuchet MS;
+
+}
+
+ul {
+	list-style-type: none;
+	
 }	
 
 #displayHome {
@@ -23,6 +30,7 @@ body {
 	box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 	width: 250px;
 	font-weight: bold;
+	
 
 }
 
@@ -120,7 +128,10 @@ body {
 	font-weight: bold;
 
 }
-	
+
+#lis {
+	height: 30px;
+}
 	
 	
 </style>
@@ -132,7 +143,7 @@ body {
 				<!-- <img src="img/logo.png" alt="logo"> -->
 			</a>
 			
-			<ul>
+			<ul class = nobull>
 				<!-- added -->
 				<h1 id="cm">Contact Manager<h1>
 				<!-- removed <li> -->
@@ -140,7 +151,7 @@ body {
 				<li><button id="displaySignup" type="button" class="buttons" onclick="doSignup(false);">Signup</button></li>
 			</ul>
 			<div id="logInField">
-				<span id="logInTitle">Please Log In:</span>
+				<!--<span id="logInTitle">Please Log In:</span> -->
 				<input type="text" id="log_uid" placeholder="Username"/>
 				<input type="password" id="log_password" placeholder="Password"/>
 				<button type="button" id="logInButton" class="buttons" onclick="doLogin();">Login</button>
@@ -157,14 +168,15 @@ body {
 	<div id="signupField" style="display:none; visibility:hidden;">
 		<span id="inf">Please enter all the information: </span><br />
 		<br>
-		<input type="text" id="sign_uid" placeholder="Username"/>
-		<input type="text" id="sign_first" placeholder="First Name"/>
-		<input type="text" id="sign_last" placeholder="Last Name"/>
-		<input type="text" id="sign_mail" placeholder="Email"/>
-		<input type="password" id="sign_pwd" placeholder="Password"/>
-		<input type="password" id="sign_pwdr" placeholder="Retype password"/><br />
-		<br>
-		<button type="button" class="buttons" id="signUpButton" onclick="doSignup(true);">SignUp</button><br />
+		<ul>
+			<li id="lis"><input type="text" id="sign_uid" placeholder="Username"/></li>
+			<li id="lis"><input type="text" id="sign_first" placeholder="First Name"/></li>
+			<li id="lis"><input type="text" id="sign_last" placeholder="Last Name"/></li>
+			<li id="lis"><input type="text" id="sign_mail" placeholder="Email"/></li>
+			<li id="lis"><input type="password" id="sign_pwd" placeholder="Password"/></li>
+			<li id="lis"><input type="password" id="sign_pwdr" placeholder="Retype password"/></li>
+		</ul>
+		<button type="button" class="buttons" id="signUpButton" onclick="doSignup(true);">SignUp</button>
 		<span id="signupResult"></span>
 	</div>
 	<span id="genMsg"></span>
