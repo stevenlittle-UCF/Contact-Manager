@@ -186,7 +186,10 @@ router.get('/add', function(req, res, next) {});
 
 router.get('/contacts', function(req, res, next) {
   //get contacts from aws api.. 
-  var contacts_json = JSON.parse(fs.readFileSync('./data/contacts.json', 'utf8'));  //mimic what API returns
+  sess = req.session;
+  var uName = sess.uName;
+  //var contacts_json = JSON.parse(fs.readFileSync('./data/contacts.json', 'utf8'));  //mimic what API returns
+  var contacts_json;
   res.render('contacts', {
     title: 'AWS RESULT',
     contacts: contacts_json

@@ -195,10 +195,10 @@ body {
 				hideOrShow("logOutField", true);
 				hideOrShow("displaySignup", false);
 				// this is where we will send the user to the contact manager
-				//   setTimeout(function()
-				//   {
-				// 	  window.location.href = "http://localhost:3000/register";
-				//   }, 1000);
+				setTimeout(function()
+				{
+				 window.location.href = "http://localhost:3000/contacts";
+				}, 1000);
           		return;
         	}
 			document.getElementById("genMsg").innerHTML = this.responseText;
