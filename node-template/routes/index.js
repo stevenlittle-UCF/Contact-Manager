@@ -54,13 +54,15 @@ router.post('/login', function(req, res)
   .then(function (response) 
   {
     // this call will return the hash for the user
-    hashed = response;
+    hashed = response.data;
+    // console.log(hashed);
     
     // compare the hash to the pwd
     bcrypt.compare(pwd, hashed, function(err, res1) {
-      if (res == true)
+      // console.log(res1);
+      if (res1 == true)
       {
-        sess.uName = uid;
+        sess.uName = uName;
         res.send("success");
       }
       else
