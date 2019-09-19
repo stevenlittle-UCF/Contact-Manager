@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-	<input id="first" type="text" placeholder="Firstname"><br>
+	<input id="first" type="text" placeholder="Firstname">
+		<a href="/contacts" role="button" style="padding:20px"> search </a>
+		<a href="/" role="button" style="padding:20px" onclick="DoLogout()"> logout </a><br>
 	<input id="last" type="text" placeholder="Lastname"><br>
 	<input id="mail" type="text" placeholder="Email"><br>
 	<input id="city" type="text" placeholder="City"><br>
@@ -16,7 +18,39 @@
 	<button value="Submit" onclick="addUser("true");">Modify Contact</button>
 	<div id="confirmModify"></div>
 
+	<!-- delete not working yet -->
+	<input id="firstD" type="text" placeholder="Firstname"><br>
+	<input id="lastD" type="text" placeholder="Lastname"><br>
+	<input id="mailD" type="text" placeholder="Email"><br>
+	<input id="cityD" type="text" placeholder="City"><br>
+	<input id="stateD" type="text" placeholder="State"><br>
+	<button value="Submit" onclick="addUser("true");">Delete Contact</button>
+	<div id="confirmDelete"></div>
+
 	<script>
+		function doLogout()
+		{
+			var params = JSON.stringify({});
+			// start ajax call
+			var xhr = new XMLHttpRequest();
+			xhr.open('post', '/logout', true);
+			xhr.setRequestHeader('Content-type', 'application/json');
+			xhr.onload = function()
+			{
+				// this represents a success
+				if (this.responseText == "success")
+				{
+					setTimeout(function()
+					{
+					 window.location.href = "http://localhost:3000/";
+					}, 1000);
+					return;
+				}
+				// show error messages
+				document.getElementById("genMsg").innerHTML = this.responseText;
+			}
+			xhr.send(params);
+		}
 		window.onload = load;
 		function load()
 		{
