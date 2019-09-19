@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+	<input id="first" type="text" placeholder="Firstname"><br>
+	<input id="last" type="text" placeholder="Lastname"><br>
+	<input id="mail" type="text" placeholder="Email"><br>
+	<input id="city" type="text" placeholder="City"><br>
+	<input id="state" type="text" placeholder="State"><br>
+	<button value="Submit" onclick="addUser("false");">Add Contact</button>
+	<div id="confirmAdd"></div>
+
+	<input id="firstN" type="text" placeholder="Firstname"><br>
+	<input id="lastN" type="text" placeholder="Lastname"><br>
+	<input id="mailN" type="text" placeholder="Email"><br>
+	<input id="cityN" type="text" placeholder="City"><br>
+	<input id="stateN" type="text" placeholder="State"><br>
+	<button value="Submit" onclick="addUser("true");">Modify Contact</button>
+	<div id="confirmModify"></div>
+
+	<script>
+		window.onload = load;
+		function load()
+		{
+			var params = JSON.stringify({});
+			var xhr = new XMLHttpRequest();
+			xhr.open('post', '/amLogged', true);
+			xhr.setRequestHeader('Content-type', 'application/json');
+			xhr.onload = function()
+			{
+				console.log(this.responseText);
+				if (this.responseText == "ERROR #123")
+				{
+					//redirect
+					setTimeout(function()
+					{
+					 window.location.href = "http://localhost:3000/";
+					}, 1);
+				}
+				else
+				{
+					//nothing
+				}
+			}
+			xhr.send(params);
+		}
+		function addUser(modify)
+		{
+			if (modify == "true")
+			{
+				var first = document.getElementById("firstN").value;
+				var last = document.getElementById("lastN").value;
+				var mail = document.getElementById("mailN").value;
+				var city = document.getElementById("cityN").value;
+				var state = document.getElementById("stateN").value;
+			}
+			else
+			{
+				var first = document.getElementById("first").value;
+				var last = document.getElementById("last").value;
+				var mail = document.getElementById("mail").value;
+				var city = document.getElementById("city").value;
+				var state = document.getElementById("state").value;
+			}
+			var params = JSON.stringify(
+			{
+				"first" : first,
+				"last" : last,
+				"mail" : mail,
+				"city" : city,
+				"state": state,
+				"modify" : modify
+			});
+
+			var xhr = new XMLHttpRequest();
+			xhr.open('post', '/addContact', true);
+			xhr.setRequestHeader('Content-type', 'application/json');
+			xhr.onload = function()
+			{
+				console.log(this.responseText);
+				if (this.responseText == "success")
+				{
+					document.getElementById("confirmAdd").innerHTML = "Contact Added!";
+					setTimeout(function()
+					{
+					 window.location.href = "http://localhost:3000/Contact";
+					}, 1000);
+
+				}
+			}
+
+			xhr.send(params);
+		}
+	</script>
+</html>

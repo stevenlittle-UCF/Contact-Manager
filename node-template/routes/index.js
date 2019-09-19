@@ -182,13 +182,89 @@ router.post('/amLogged', function(req, res)
   }
 });
 
-router.get('/add', function(req, res, next) {});
+// This returns a JSON object containing a list of the contacts
+router.post('/getContacts', function(req, res) 
+{
+  sess = req.session;
+
+  if (sess.uName)
+  {
+    axios.post('https://nckcvqqm1m.execute-api.us-east-2.amazonaws.com/dev/lookup',
+    {
+      "user_id" : sess.uName
+    })
+    .then(function (response) // response contains the JSON object
+    {
+      console.log(response);
+      res.json(response.data);
+    })
+    .catch(function(error)
+    {
+      console.log(error);
+    });
+  }
+  else
+  {
+    res.send("Error no session");
+  }
+});
+
+router.get('/add', function(req, res)
+{
+  res.render('add',{
+    title: 'ADD CONTACT'
+  })
+
+})
+
+router.post('/addContact', function(req, res)
+{
+  sess = req.session;
+  var first = req.body.first;
+  var last = req.body.last;
+  var mail = req.body.mail;
+  var city = req.body.city;
+  var state = req.body.state;
+  var modify = req.body.modify;
+
+  if (modify == "false" && validator.isEmpty(first) || validator.isEmpty(last) ||
+      validator.isEmpty(mail) || validator.isEmpty(city) ||
+      validator.isEmpty(state))
+  {
+    res.send("Empty fields");
+  }
+
+  axios.post('https://nckcvqqm1m.execute-api.us-east-2.amazonaws.com/dev/contactadd',
+  {
+    "user_id" : sess.uName,
+    "first_name" : first,
+    "last_name" : last,
+    "mail" : mail,
+    "city" : city,
+    "state" : state
+  })
+  .then(function (response)
+  {
+    console.log(response);
+    if (response.data == "contact added")
+    {
+      res.send("success");
+    }
+    else
+    {
+      res.send("Failed to add contact :(");
+    }
+  })
+  .catch(function (error)
+  {
+    console.log(error);
+  })
+})
 
 router.get('/contacts', function(req, res, next) {
   //get contacts from aws api.. 
-  sess = req.session;
-  var uName = sess.uName;
   //var contacts_json = JSON.parse(fs.readFileSync('./data/contacts.json', 'utf8'));  //mimic what API returns
+  
   var contacts_json;
   res.render('contacts', {
     title: 'AWS RESULT',

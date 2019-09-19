@@ -2,7 +2,8 @@
 <html lang="en">
 
 <a href="/contacts" role="button"> view contacts</a>
-<a href="/add" role="button"> add contact </a>
+<a href="/add" role="button"> manage contacts </a>
+<a href="/" role="button" onclick="DoLogout()"> logout </a>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
@@ -22,6 +23,31 @@
 <!-- Receives 'contacts' obj from res.render, formats it back to a string for regex searching -->
 <script>
 
+	var contacts;
+	// logout script which can be used else where
+	function doLogout()
+	{
+		var params = JSON.stringify({});
+		// start ajax call
+		var xhr = new XMLHttpRequest();
+		xhr.open('post', '/logout', true);
+		xhr.setRequestHeader('Content-type', 'application/json');
+		xhr.onload = function()
+		{
+			// this represents a success
+			if (this.responseText == "success")
+			{
+				setTimeout(function()
+				{
+				 window.location.href = "http://localhost:3000/";
+				}, 1000);
+				return;
+			}
+			// show error messages
+			document.getElementById("genMsg").innerHTML = this.responseText;
+		}
+		xhr.send(params);
+	}
 	function showContact(val)
 	{
 		var output = '<div id="' + val.user_id + '"' + '<h5 onclick="alert(\'' +
@@ -33,48 +59,41 @@
 	// On load, check if there is a username var defined, if not error
 	// else, username is returned. Make ajax call to api for username, store
 	// the response (the contacts).
-	// var uName;
-	// window.onload = load;
-	// function load()
-	// {
-	// 	// build JSON
-	// 	var params = JSON.stringify({});
- //      	var xhr = new XMLHttpRequest();
- //      	xhr.open('post', '/amLogged', true);
- //      	xhr.setRequestHeader('Content-type', 'application/json');
+	window.onload = load;
+	function load()
+	{
+		// build JSON
+		var params = JSON.stringify({});
+      	var xhr = new XMLHttpRequest();
+      	xhr.open('post', '/getContacts', true);
+      	xhr.setRequestHeader('Content-type', 'application/json');
 
- //      	xhr.onload = function()
- //      	{
- //            var response = this.responseText;
- //            console.log(response);
- //            if (this.responseText == "ERROR #123")
- //            {
- //                // here
- //            }
- //            else
- //            {
- //                uName = this.responseText;
+      	xhr.onload = function()
+      	{
+            var response = this.responseText;
+            // console.log(response);
+            if (this.responseText == "Error no session")
+            {
+                // here
+                setTimeout(function()
+				{
+				 window.location.href = "http://localhost:3000/contacts";
+				}, 1);
+            }
+            else // a JSON object (the contacts) was returned
+            {
+                contacts = response;
+            }
+            // console.log(contacts);
+      	}
 
- //                // ajax call
- //                axios.post('https://nckcvqqm1m.execute-api.us-east-2.amazonaws.com/dev/lookup',
- //                {
- //                	"user_id": uname
- //                })
- //                .then(function (response)
- //                {
-
- //                });
- //            }
- //      	}
-
- //      	xhr.send(params);
-	// }
-
+      	xhr.send(params);
+	}
 	// Format 'contacts' object retrieved from aws api back to string for regex search
-	var contactList = <%-JSON.stringify(contacts)%>
-
 	$('#txt-search').keyup(function()
 	{
+			var contactList = contacts;
+			contactList = JSON.parse(contactList);
 			var output = '';
 			var searchField = $(this).val();
 
@@ -86,10 +105,13 @@
 			else
 			{
 				var regex = new RegExp(searchField, "i");
+				// console.log(contactList);
+				console.log(contactList[0].first_name);
 				$.each(contactList, function(index, val) 
 				{
-					if (val.first_name.search(regex) != -1 ||
-						val.last_name.search(regex) != -1)
+					console.log(val);
+					if ((val.first_name.search(regex) != -1))// ||
+						//(val.sort.search(regex) != -1))
 					{
 						output += showContact(val);
 					}
