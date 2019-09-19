@@ -51,6 +51,45 @@
 				var mail = document.getElementById("mailN").value;
 				var city = document.getElementById("cityN").value;
 				var state = document.getElementById("stateN").value;
+
+				var params = JSON.stringify({});
+			  	var xhr = new XMLHttpRequest();
+			  	xhr.open('post', '/getContacts', true);
+			  	xhr.setRequestHeader('Content-type', 'application/json');
+
+			  	xhr.onload = function()
+			  	{
+			        var response = this.responseText;
+			        // console.log(response);
+			        if (this.responseText == "Error no session")
+			        {
+			            // here
+			            setTimeout(function()
+						{
+						 window.location.href = "http://localhost:3000/contacts";
+						}, 1);
+			        }
+			        else // a JSON object (the contacts) was returned
+			        {
+			            contacts = response;
+			            // search until a unique object is found
+			            // fill out rest of fields (make sure none are blank)
+			            // THEN api call
+			            
+			            // if (first != cont)
+
+			            // find a none blank fields, first
+			            // if firstname matches more then 1 object
+			            // check more fields for match
+			            // if no matches tell user more fields needed
+			            // if only one object remains
+			            // find blank fields in user inputs
+			            // replace them with that contacts fields
+			        }
+			        // console.log(contacts);
+      	}
+
+      	xhr.send(params);
 			}
 			else
 			{
