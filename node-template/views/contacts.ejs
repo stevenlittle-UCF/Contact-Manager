@@ -50,11 +50,42 @@
 	}
 	function showContact(val)
 	{
-		var output = '<div id="' + val.user_id + '"' + '<h5 onclick="alert(\'' +
-								  'hello ' + val.first_name + '\')">' + val.first_name +
-								  " " + val.last_name + '</h5></div>';
+		var output = '<div id="' + val.first_name + '"' + '<h5 onclick="showOptions(' + val.first_name + ')">' + val.first_name +
+					 " " + val.last_name + '</h5></div>' +
+					 '<div id="modify' + val.first_name + '"style="display:none" onclick="modContact()">modify</div>' +
+					 '<div id="delete' + val.first_name + '"style="display:none" onclick="delContact()">delete</div>';
 
 		return output
+	}
+	function modContact()
+	{
+
+	}
+	function delContact()
+	{
+		
+	}
+	function showOptions(contact)
+	{
+		var showModify = 'modify' + contact.id;
+		var showDelete = 'delete' + contact.id;
+		var toModify = document.getElementById(showModify);
+		var toDelete = document.getElementById(showDelete);
+
+		if (toModify.style.display == "none")
+		{
+			toModify.style.display = "block";
+			toDelete.style.display = "block";
+		}
+		else
+		{
+			toModify.style.display = "none";
+			toDelete.style.display = "none";
+		}
+	}
+	function getAction()
+	{
+
 	}
 	// On load, check if there is a username var defined, if not error
 	// else, username is returned. Make ajax call to api for username, store
@@ -90,32 +121,33 @@
       	xhr.send(params);
 	}
 	// Format 'contacts' object retrieved from aws api back to string for regex search
+	var contactList;
 	$('#txt-search').keyup(function()
 	{
-			var contactList = contacts;
+			contactList = contacts;
 			contactList = JSON.parse(contactList);
 			var output = '';
 			var searchField = $(this).val();
 
 			if (searchField === '')
 			{
-				$('#filter').html('');
-				return;
+				$.each(contactList, function(index, val) 
+				{
+						output += showContact(val);
+				});
 			}
 			else
 			{
 				var regex = new RegExp(searchField, "i");
 				// console.log(contactList);
-				console.log(contactList[0].first_name);
 				$.each(contactList, function(index, val) 
 				{
-					console.log(val);
 					if ((val.first_name.search(regex) != -1))// ||
 						//(val.sort.search(regex) != -1))
 					{
 						output += showContact(val);
 					}
-				})
+				});
 			}
 			$('#filter').html(output);
 	});
