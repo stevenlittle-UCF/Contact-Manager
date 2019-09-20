@@ -12,8 +12,8 @@ https://nckcvqqm1m.execute-api.us-east-2.amazonaws.com/dev/contactdelete
 ```
 {
     "user_id": "test",
-    "first" : "firstnametodel",
-    "last" : "also need a last name",
+    "first_name" : "firstnametodel",
+    "last_name" : "also need a last name",
 }
 ```
 
