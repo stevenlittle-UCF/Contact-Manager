@@ -1,25 +1,153 @@
 <!DOCTYPE html>
 <html lang="en">
-	<input id="first" type="text" placeholder="Firstname">
-		<a href="/contacts" role="button" style="padding:20px"> search </a>
-		<a href="/" role="button" style="padding:20px" onclick="DoLogout()"> logout </a><br>
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Contact Manager</title>
+	
+<style>
+	
+body {
+	background-color: #D3D3D3;
+	position: relative;
+	font-family:  Trebuchet MS;
+}
+
+#first {
+	border-radius: 4px;
+	margin-bottom: 10px;
+}
+
+#last {
+	border-radius: 4px;
+	margin-bottom: 10px;
+}
+
+#mail {
+	border-radius: 4px;
+	margin-bottom: 10px;
+}
+
+#city {
+	border-radius: 4px;
+	margin-bottom: 10px;
+}
+
+#state {
+	border-radius: 4px;
+	margin-bottom: 20px;
+}
+
+#firstN {
+	border-radius: 4px;
+	margin-bottom: 10px;
+}
+
+#lastN {
+	border-radius: 4px;
+	margin-bottom: 10px;
+}
+
+#mailN {
+	border-radius: 4px;
+	margin-bottom: 10px;
+}
+
+#cityN {
+	border-radius: 4px;
+	margin-bottom: 10px;
+}
+
+#stateN {
+
+	border-radius: 4px;
+	margin-bottom: 20px;
+}
+
+
+#addCont {
+	font-size: 24xp;
+	border-radius: 4px;
+	border: 2px solid #000000;
+	background-color: #98FB98;
+	color: black;
+	box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+	width: 150px;
+	font-weight: bold;
+	text-align: center;
+	margin-bottom: 60px;
+}
+
+#modCont {
+	font-size: 24xp;
+	border-radius: 4px;
+	border: 2px solid #000000;
+	background-color: #E9967A;
+	color: black;
+	box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+	width: 150px;
+	font-weight: bold;
+	
+}
+
+#search {
+	background-color: #90EE90;
+	color: black;
+	border: 2px solid #000000;
+	padding: 5px 5px;
+	text-align: center;
+	text-decoration: none;
+	border-radius: 4px;
+	font-weight: bold;
+	margin-right: 40px;
+}
+
+#lgo {
+	background-color: #E9967A;
+	color: black;
+	border: 2px solid #000000;
+	padding: 10px 10px;
+	text-align: center;
+	text-decoration: none;
+	border-radius: 4px;
+	font-weight: bold;
+}
+
+#but {
+	text-align: center;
+}
+
+
+
+</style>
+</head>
+	<div id="but">
+	<a href="/contacts" role="button" style="padding:5px" id="search"> Search </a>
+	<a href="/" role="button" style="padding:5px" onclick="DoLogout()" id="lgo"> Logout </a><br>
+	</div>
+	
+	<div id="fst">
+	<input id="first" type="text" placeholder="Firstname"><br>
 	<input id="last" type="text" placeholder="Lastname"><br>
 	<input id="mail" type="text" placeholder="Email"><br>
 	<input id="city" type="text" placeholder="City"><br>
 	<input id="state" type="text" placeholder="State"><br>
-	<button value="Submit" onclick="addUser('false');">Add Contact</button>
+	<button id="addCont" value="Submit" onclick="addUser('false');">Add Contact</button>
 	<div id="confirmAdd"></div>
+	</div>
+	
 
 	<input id="firstN" type="text" placeholder="Firstname"><br>
 	<input id="lastN" type="text" placeholder="Lastname"><br>
 	<input id="mailN" type="text" placeholder="Email"><br>
 	<input id="cityN" type="text" placeholder="City"><br>
 	<input id="stateN" type="text" placeholder="State"><br>
-	<button value="Submit" onclick="addUser('true');">Modify Contact</button>
+	<button id="modCont" value="Submit" onclick="addUser('true');">Modify Contact</button>
 	<div id="confirmModify"></div>
 
 	<script>
-
 		function doLogout()
 		{
 			var params = JSON.stringify({});
@@ -43,7 +171,6 @@
 			}
 			xhr.send(params);
 		}
-
 		window.onload = load;
 		function load()
 		{
@@ -68,7 +195,6 @@
 			}
 			xhr.send(params);
 		}
-
 		function addUser(modify)
 		{
 			if (modify == "true")
@@ -78,14 +204,11 @@
 				var mail = document.getElementById("mailN").value;
 				var city = document.getElementById("cityN").value;
 				var state = document.getElementById("stateN").value;
-
-
 				// Check if contact exists
 				var params = JSON.stringify({})
 				var xhr = new XMLHttpRequest();
 				xhr.open('post', '/getContacts');
 				xhr.setRequestHeader('Content-type', 'application/json');
-
 				xhr.onload = function()
 				{
 					if (this.responseText != "Error no session")
@@ -112,11 +235,9 @@
 									"state": state,
 									"modify" : modify
 								});
-
 						  	xhr = new XMLHttpRequest();
 						  	xhr.open('post', '/addContact', true);
 						  	xhr.setRequestHeader('Content-type', 'application/json');
-
 						  	xhr.onload = function()
 						  	{
 						        if (this.responseText == "success")
@@ -132,7 +253,6 @@
 						            // THEN api call
 						            
 						            // if (first != cont)
-
 						            // find a none blank fields, first
 						            // if firstname matches more then 1 object
 						            // check more fields for match
@@ -160,7 +280,6 @@
 				var mail = document.getElementById("mail").value;
 				var city = document.getElementById("city").value;
 				var state = document.getElementById("state").value;
-
 				var params = JSON.stringify(
 				{
 					"first" : first,
@@ -170,7 +289,6 @@
 					"state": state,
 					"modify" : modify
 				});
-
 				var xhr = new XMLHttpRequest();
 				xhr.open('post', '/addContact', true);
 				xhr.setRequestHeader('Content-type', 'application/json');
@@ -183,14 +301,12 @@
 						// {
 						//  window.location.href = "http://localhost:3000/contacts";
 						// }, 1000);
-
 					}
 					else
 					{
 						alert("Empty fields adding new contact")
 					}
 				}
-
 				xhr.send(params);
 				}
 		}
