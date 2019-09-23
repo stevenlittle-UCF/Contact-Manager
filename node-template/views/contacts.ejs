@@ -51,6 +51,7 @@
 	{
 		var output = '<div id="' + val.first_name + '"' + '<h5 onclick="showOptions(\'' + val.first_name + '\')">' + val.first_name +
 					 " " + val.last_name + '</h5></div>' +
+					 '<div id="more' + val.first_name + '"style="display:none" onclick="showMore(\'' + val.first_name + '\')">show more</div>' +
 					 '<div id="modify' + val.first_name + '"style="display:none" onclick="modContact()">modify</div>' +
 					 '<div id="delete' + val.first_name + '"style="display:none" onclick="delContact(\'' +
 					 val.user_id + '\',\'' + val.first_name + '\',\'' + val.last_name + '\')">delete</div>';
@@ -60,19 +61,46 @@
 	{
 		var showModify = 'modify' + contact;
 		var showDelete = 'delete' + contact;
+		var showMore = 'more' + contact;
 		var toModify = document.getElementById(showModify);
 		var toDelete = document.getElementById(showDelete);
+		var toShowMore = document.getElementById(showMore);
 
 		if (toModify.style.display == "none")
 		{
 			toModify.style.display = "block";
 			toDelete.style.display = "block";
+			toShowMore.style.display = "block";
 		}
 		else
 		{
 			toModify.style.display = "none";
 			toDelete.style.display = "none";
+			toShowMore.style.display = "none";
 		}
+	}
+	function showMore(contact)
+	{
+		var first;
+		var last;
+		var city;
+		var state;
+		var contactList = JSON.parse(contacts);
+		for (var i in contactList)
+		{
+			if (contactList[i].first_name == contact)
+			{
+				first = contactList[i].first_name;
+				last = contactList[i].last_name;
+				city = contactList[i].city;
+				state = contactList[i].state;
+			}
+		}
+
+		alert("First name: " + first + "\n" +
+			  "Last name: " + last + "\n" +
+			  "City: " + city + "\n" +
+			  "State: " + state);
 	}
 	function modContact()
 	{
