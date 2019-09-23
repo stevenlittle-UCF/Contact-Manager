@@ -9,11 +9,14 @@
 <style>
 	
 body {
-	background-color: #2F4F4F;
-	text-align: center;
+	background-color: #D3D3D3;
 	position: relative;
+	font-family:  Trebuchet MS;
+}
+ul {
+	list-style-type: none;
+	
 }	
-
 #displayHome {
 	font-size: 24xp;
 	border-radius: 4px;
@@ -23,9 +26,8 @@ body {
 	box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 	width: 250px;
 	font-weight: bold;
-
+	
 }
-
 #displaySignup {
 	font-size: 24xp;
 	border-radius: 4px;
@@ -35,28 +37,22 @@ body {
 	box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 	width: 250px;
 	font-weight: bold;
-
+	text-align: center;
 }
-
-
 #cm {
 	color: #CD5C5C;
 	font-size: 70px;
 }
-
 #logInTitle {
 	font-size: 25px;
 	font-weight: bold;
 }
-
 #log_uid {
 	border-radius: 4px;
 }
-
 #log_password {
 	border-radius: 4px;
 }
-
 #logInButton {
 	font-size: 24xp;
 	border-radius: 4px;
@@ -66,9 +62,7 @@ body {
 	box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 	width: 150px;
 	font-weight: bold;
-
 }
-
 #logOutButton {
 	font-size: 24xp;
 	border-radius: 4px;
@@ -79,36 +73,28 @@ body {
 	width: 150px;
 	font-weight: bold;
 }
-
 #sign_uid {
 	border-radius: 4px;
 }
-
 #sign_first {
 	border-radius: 4px;
 }
-
 #sign_last {
 	border-radius: 4px;
 }
-
 #sign_mail {
 	border-radius: 4px;
 }
-
 #sign_pwd {
 	border-radius: 4px;
 }
-
 #sign_pwdr {
 	border-radius: 4px;
 }
-
 #inf {
 	font-size: 25px;
 	font-weight: bold;	
 }
-
 #signUpButton {
 	font-size: 24xp;
 	border-radius: 4px;
@@ -118,9 +104,10 @@ body {
 	box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 	width: 250px;
 	font-weight: bold;
-
 }
-	
+#lis {
+	height: 30px;
+}
 	
 	
 </style>
@@ -132,15 +119,16 @@ body {
 				<!-- <img src="img/logo.png" alt="logo"> -->
 			</a>
 			
-			<ul>
+			    <ul class = nobull>
 				<!-- added -->
-				<h1 id="cm">Contact Manager<h1>
+				<h1 id="cm">Contact Manager</h1>
 				<!-- removed <li> -->
 				<li><button id="displayHome" type="button" class="buttons" onclick="goHome();">Home</button></li>
+				<br>
 				<li><button id="displaySignup" type="button" class="buttons" onclick="doSignup(false);">Signup</button></li>
-			</ul>
+				</ul>
 			<div id="logInField">
-				<span id="logInTitle">Please Log In:</span>
+				<!--<span id="logInTitle">Please Log In:</span> -->
 				<input type="text" id="log_uid" placeholder="Username"/>
 				<input type="password" id="log_password" placeholder="Password"/>
 				<button type="button" id="logInButton" class="buttons" onclick="doLogin();">Login</button>
@@ -157,17 +145,19 @@ body {
 	<div id="signupField" style="display:none; visibility:hidden;">
 		<span id="inf">Please enter all the information: </span><br />
 		<br>
-		<input type="text" id="sign_uid" placeholder="Username"/>
-		<input type="text" id="sign_first" placeholder="First Name"/>
-		<input type="text" id="sign_last" placeholder="Last Name"/>
-		<input type="text" id="sign_mail" placeholder="Email"/>
-		<input type="password" id="sign_pwd" placeholder="Password"/>
-		<input type="password" id="sign_pwdr" placeholder="Retype password"/><br />
-		<br>
-		<button type="button" class="buttons" id="signUpButton" onclick="doSignup(true);">SignUp</button><br />
+		<ul>
+			<li id="lis"><input type="text" id="sign_uid" placeholder="Username"/></li>
+			<li id="lis"><input type="text" id="sign_first" placeholder="First Name"/></li>
+			<li id="lis"><input type="text" id="sign_last" placeholder="Last Name"/></li>
+			<li id="lis"><input type="text" id="sign_mail" placeholder="Email"/></li>
+			<li id="lis"><input type="password" id="sign_pwd" placeholder="Password"/></li>
+			<li id="lis"><input type="password" id="sign_pwdr" placeholder="Retype password"/></li>
+			<li><button type="button" class="buttons" id="signUpButton" onclick="doSignup(true);">SignUp</button></li>
+			<li><span id="genMsg"></span></li>
+		</ul>
 		<span id="signupResult"></span>
 	</div>
-	<span id="genMsg"></span>
+	
 </body>
   <script>
     function doLogin()
@@ -195,10 +185,10 @@ body {
 				hideOrShow("logOutField", true);
 				hideOrShow("displaySignup", false);
 				// this is where we will send the user to the contact manager
-				setTimeout(function()
-				{
-				 window.location.href = "http://localhost:3000/contacts";
-				}, 1000);
+				//   setTimeout(function()
+				//   {
+				// 	  window.location.href = "http://localhost:3000/register";
+				//   }, 1000);
           		return;
         	}
 			document.getElementById("genMsg").innerHTML = this.responseText;
@@ -324,7 +314,7 @@ body {
 				document.getElementById("genMsg").innerHTML = "Login successful";
 				hideOrShow("logInField", false);
 				hideOrShow("logOutField", true);
-				hideOrShow("displaySignup", false);
+				hideOrShow("displaySignup", true);
 				document.getElementById("log_uid").value = "";
 				document.getElementById("log_password").value = "";
 				// this is where we will send the user to the contact manager
