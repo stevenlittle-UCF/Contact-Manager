@@ -17,11 +17,9 @@
 	<div id="filter"></div>
 </div>
 
-<!-- Receives 'contacts' obj from res.render, formats it back to a string for regex searching -->
 <script>
 
 	var contacts;
-	// logout script which can be used else where
 	function doLogout()
 	{
 		var params = JSON.stringify({});
@@ -46,7 +44,6 @@
 		xhr.send(params);
 	}
 
-
 	function showContact(val)
 	{
 		var output = '<div id="' + val.first_name + '"' + '<h5 onclick="showOptions(\'' + val.first_name + '\')">' + val.first_name +
@@ -57,6 +54,7 @@
 					 val.user_id + '\',\'' + val.first_name + '\',\'' + val.last_name + '\')">delete</div>';
 		return output;
 	}
+
 	function showOptions(contact)
 	{
 		var showModify = 'modify' + contact;
@@ -79,6 +77,7 @@
 			toShowMore.style.display = "none";
 		}
 	}
+
 	function showMore(contact)
 	{
 		var first;
@@ -105,10 +104,12 @@
 			  "State: " + state); /* + "\n" +
 			  "Email: " + email); */
 	}
+
 	function modContact()
 	{
 		window.location.href = "http://localhost:3000/add";
 	}
+
 	function delContact(uid, first, last)
 	{
 		var params = JSON.stringify({
@@ -141,6 +142,7 @@
 		}
 		xhr.send(params);
 	}
+
 	// On load, check if there is a username var defined, if not error
 	// else, username is returned. Make ajax call to api for username, store
 	// the response (the contacts).
@@ -186,6 +188,7 @@
 			$('#filter').html(output);
 		}, 10000);
 	}
+	
 	// Format 'contacts' object retrieved from aws api back to string for regex search
 	$('#txt-search').keyup(function()
 	{
