@@ -68,7 +68,7 @@
 			}
 			xhr.send(params);
 		}
-		
+
 		function addUser(modify)
 		{
 			if (modify == "true")
@@ -79,46 +79,79 @@
 				var city = document.getElementById("cityN").value;
 				var state = document.getElementById("stateN").value;
 
-				var params = JSON.stringify({
-					"first" : first,
-					"last" : last,
-					"mail" : mail,
-					"city" : city,
-					"state": state,
-					"modify" : modify
-				});
 
-			  	var xhr = new XMLHttpRequest();
-			  	xhr.open('post', '/addContact', true);
-			  	xhr.setRequestHeader('Content-type', 'application/json');
+				// Check if contact exists
+				var params = JSON.stringify({})
+				var xhr = new XMLHttpRequest();
+				xhr.open('post', '/getContacts');
+				xhr.setRequestHeader('Content-type', 'application/json');
 
-			  	xhr.onload = function()
-			  	{
-			        if (this.responseText == "success")
-			        {
-			            // here
-			            alert("Contact modified!")
-			        }
-			        else // a JSON object (the contacts) was returned
-			        {
-			            contacts = response;
-			            // search until a unique object is found
-			            // fill out rest of fields (make sure none are blank)
-			            // THEN api call
-			            
-			            // if (first != cont)
+				xhr.onload = function()
+				{
+					if (this.responseText != "Error no session")
+					{
+						var list = JSON.parse(this.responseText);
+						var found = -1;
+						for (x in list)
+						{
+							if (first == list[x].first_name)
+								found = 1
+						}
+						if (found == -1)
+						{
+							alert("Contact " + first + " doesn't exist!");
+						}
+						else
+						{
+							// Contact exists, continue modification
+							params = JSON.stringify({
+									"first" : first,
+									"last" : last,
+									"mail" : mail,
+									"city" : city,
+									"state": state,
+									"modify" : modify
+								});
 
-			            // find a none blank fields, first
-			            // if firstname matches more then 1 object
-			            // check more fields for match
-			            // if no matches tell user more fields needed
-			            // if only one object remains
-			            // find blank fields in user inputs
-			            // replace them with that contacts fields
-			        }
-			        // console.log(contacts);
-      			}
-      			xhr.send(params);
+						  	xhr = new XMLHttpRequest();
+						  	xhr.open('post', '/addContact', true);
+						  	xhr.setRequestHeader('Content-type', 'application/json');
+
+						  	xhr.onload = function()
+						  	{
+						        if (this.responseText == "success")
+						        {
+						            // here
+						            alert("Contact " + first + " modified!")
+						        }
+						        else // a JSON object (the contacts) was returned
+						        {
+						        	alert("Empty fields modifying existing contact");
+						            // search until a unique object is found
+						            // fill out rest of fields (make sure none are blank)
+						            // THEN api call
+						            
+						            // if (first != cont)
+
+						            // find a none blank fields, first
+						            // if firstname matches more then 1 object
+						            // check more fields for match
+						            // if no matches tell user more fields needed
+						            // if only one object remains
+						            // find blank fields in user inputs
+						            // replace them with that contacts fields
+						        }
+		      				}
+		      				xhr.send(params);
+						}
+						
+					}
+					else
+					{
+						//alert("Contact doesn't exist!");
+					}
+				}
+				xhr.send(params);
 			}
 			else
 			{
@@ -152,6 +185,10 @@
 						//  window.location.href = "http://localhost:3000/contacts";
 						// }, 1000);
 
+					}
+					else
+					{
+						alert("Empty fields adding new contact")
 					}
 				}
 
