@@ -123,7 +123,6 @@
 		xhr.setRequestHeader('Content-type', 'application/json');
 		xhr.onload = function()
 		{
-			console.log(this.responseText);
 			// this represents a success
 			if (this.responseText == "success")
 			{
@@ -158,7 +157,6 @@
       	xhr.onload = function()
       	{
             var response = this.responseText;
-            // console.log(response);
             if (this.responseText == "Error no session")
             {
                 // here
@@ -188,7 +186,7 @@
 			$('#filter').html(output);
 		}, 10000);
 	}
-	
+
 	// Format 'contacts' object retrieved from aws api back to string for regex search
 	$('#txt-search').keyup(function()
 	{
@@ -207,7 +205,6 @@
 			else
 			{
 				var regex = new RegExp(searchField, "i");
-				// console.log(contactList);
 				$.each(contactList, function(index, val) 
 				{
 					if ((val.first_name.search(regex) != -1))// ||
