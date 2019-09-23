@@ -194,7 +194,7 @@ router.post('/getContacts', function(req, res)
     })
     .then(function (response) // response contains the JSON object
     {
-      console.log(response);
+      //console.log(response);
       res.json(response.data);
     })
     .catch(function(error)
@@ -244,7 +244,7 @@ router.post('/addContact', function(req, res)
   })
   .then(function (response)
   {
-    console.log(response);
+   // console.log(response);
     if (response.data == "contact added")
     {
       res.send("success");
