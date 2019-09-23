@@ -7,7 +7,7 @@
 	<input id="mail" type="text" placeholder="Email"><br>
 	<input id="city" type="text" placeholder="City"><br>
 	<input id="state" type="text" placeholder="State"><br>
-	<button value="Submit" onclick="addUser("false");">Add Contact</button>
+	<button value="Submit" onclick="addUser('false');">Add Contact</button>
 	<div id="confirmAdd"></div>
 
 	<input id="firstN" type="text" placeholder="Firstname"><br>
@@ -15,7 +15,7 @@
 	<input id="mailN" type="text" placeholder="Email"><br>
 	<input id="cityN" type="text" placeholder="City"><br>
 	<input id="stateN" type="text" placeholder="State"><br>
-	<button value="Submit" onclick="addUser("true");">Modify Contact</button>
+	<button value="Submit" onclick="addUser('true');">Modify Contact</button>
 	<div id="confirmModify"></div>
 
 	<!-- delete not working yet -->
@@ -24,7 +24,7 @@
 	<input id="mailD" type="text" placeholder="Email"><br>
 	<input id="cityD" type="text" placeholder="City"><br>
 	<input id="stateD" type="text" placeholder="State"><br>
-	<button value="Submit" onclick="addUser("true");">Delete Contact</button>
+	<button value="Submit" onclick="addUser('true');">Delete Contact</button>
 	<div id="confirmDelete"></div>
 
 	<script>
@@ -60,7 +60,6 @@
 			xhr.setRequestHeader('Content-type', 'application/json');
 			xhr.onload = function()
 			{
-				console.log(this.responseText);
 				if (this.responseText == "ERROR #123")
 				{
 					//redirect
@@ -121,9 +120,8 @@
 			            // replace them with that contacts fields
 			        }
 			        // console.log(contacts);
-      	}
-
-      	xhr.send(params);
+      			}
+      			xhr.send(params);
 			}
 			else
 			{
@@ -151,11 +149,11 @@
 				console.log(this.responseText);
 				if (this.responseText == "success")
 				{
-					document.getElementById("confirmAdd").innerHTML = "Contact Added!";
-					setTimeout(function()
-					{
-					 window.location.href = "http://localhost:3000/Contact";
-					}, 1000);
+					alert("Contact Added!");
+					// setTimeout(function()
+					// {
+					//  window.location.href = "http://localhost:3000/contacts";
+					// }, 1000);
 
 				}
 			}

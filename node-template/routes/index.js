@@ -261,6 +261,41 @@ router.post('/addContact', function(req, res)
   })
 })
 
+router.post('/deleteContact', function(req, res)
+{
+  sess = req.session;
+  var first = req.body.first_name;
+  var last = req.body.last_name;
+
+  if (validator.isEmpty(first) || validator.isEmpty(last))
+  {
+    res.send("Empty fields");
+  }
+
+  axios.post('https://nckcvqqm1m.execute-api.us-east-2.amazonaws.com/dev/contactdelete',
+  {
+    "user_id" : sess.uName,
+    "first_name" : first,
+    "last_name" : last,
+  })
+  .then(function (response)
+  {
+    console.log(response);
+    if (response.data == "delete")
+    {
+      res.send("success");
+    }
+    else
+    {
+      res.send("Failed to remove contact :(");
+    }
+  })
+  .catch(function (error)
+  {
+    console.log(error);
+  })
+})
+
 router.get('/contacts', function(req, res, next) {
   //get contacts from aws api.. 
   //var contacts_json = JSON.parse(fs.readFileSync('./data/contacts.json', 'utf8'));  //mimic what API returns

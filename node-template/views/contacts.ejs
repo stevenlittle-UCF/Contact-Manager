@@ -4,21 +4,18 @@
 <!-- <a href="/contacts" role="button"> view contacts</a> -->
 <a href="/add" role="button"> manage contacts </a>
 <a href="/" role="button" onclick="DoLogout()"> logout </a>
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-
 <div class="container" style="padding:50px 550px;">
 	<form role="form">
 		<div class="form-group">
 
 		</div>
 	</form>
-
+	<div id="delConfirm"></div>
 	<input type="text" class="form-control input-lg" id="txt-search"
 	placeholder="Who to lookup?" autocomplete="off"> 
 	<div id="filter"></div>
 </div>
-
 
 <!-- Receives 'contacts' obj from res.render, formats it back to a string for regex searching -->
 <script>
@@ -48,27 +45,21 @@
 		}
 		xhr.send(params);
 	}
+
+
 	function showContact(val)
 	{
-		var output = '<div id="' + val.first_name + '"' + '<h5 onclick="showOptions(' + val.first_name + ')">' + val.first_name +
+		var output = '<div id="' + val.first_name + '"' + '<h5 onclick="showOptions(\'' + val.first_name + '\')">' + val.first_name +
 					 " " + val.last_name + '</h5></div>' +
 					 '<div id="modify' + val.first_name + '"style="display:none" onclick="modContact()">modify</div>' +
-					 '<div id="delete' + val.first_name + '"style="display:none" onclick="delContact()">delete</div>';
-
-		return output
-	}
-	function modContact()
-	{
-
-	}
-	function delContact()
-	{
-		
+					 '<div id="delete' + val.first_name + '"style="display:none" onclick="delContact(\'' +
+					 val.user_id + '\',\'' + val.first_name + '\',\'' + val.last_name + '\')">delete</div>';
+		return output;
 	}
 	function showOptions(contact)
 	{
-		var showModify = 'modify' + contact.id;
-		var showDelete = 'delete' + contact.id;
+		var showModify = 'modify' + contact;
+		var showDelete = 'delete' + contact;
 		var toModify = document.getElementById(showModify);
 		var toDelete = document.getElementById(showDelete);
 
@@ -83,9 +74,41 @@
 			toDelete.style.display = "none";
 		}
 	}
-	function getAction()
+	function modContact()
 	{
 
+	}
+	function delContact(uid, first, last)
+	{
+		var params = JSON.stringify({
+			"user_id" : uid,
+			"first_name" : first,
+			"last_name" : last
+		});
+		// start ajax call
+		var xhr = new XMLHttpRequest();
+		xhr.open('post', '/deleteContact', true);
+		xhr.setRequestHeader('Content-type', 'application/json');
+		xhr.onload = function()
+		{
+			console.log(this.responseText);
+			// this represents a success
+			if (this.responseText == "success")
+			{
+				document.getElementById("delConfirm").innerHTML = "Contact removed";
+				setTimeout(function()
+				{
+				 window.location.href = "http://localhost:3000/contacts";
+				}, 1000);
+				//return;
+			}
+			// show error messages
+			else
+			{
+				document.getElementById("delConfirm").innerHTML = "API Error";
+			}
+		}
+		xhr.send(params);
 	}
 	// On load, check if there is a username var defined, if not error
 	// else, username is returned. Make ajax call to api for username, store
@@ -119,9 +142,24 @@
       	}
 
       	xhr.send(params);
+
+      	setTimeout(function()
+		{
+			var contactList;
+			contactList = contacts;
+			contactList = JSON.parse(contactList);
+			var output = '';
+			$.each(contactList, function(index, val) 
+			{
+				output += showContact(val);
+			});
+			$('#filter').html(output);
+		}, 10000);
 	}
 	// Format 'contacts' object retrieved from aws api back to string for regex search
-	var contactList;
+	
+
+
 	$('#txt-search').keyup(function()
 	{
 			contactList = contacts;
