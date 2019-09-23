@@ -64,6 +64,9 @@ router.post('/login', function(req, res)
       {
         sess.uName = uName;
         res.send("success");
+	res.render('/contacts',{
+    title: ' CONTACTs'
+ 		 })
       }
       else
       {
@@ -244,7 +247,7 @@ router.post('/addContact', function(req, res)
   })
   .then(function (response)
   {
-   // console.log(response);
+    console.log(response);
     if (response.data == "contact added")
     {
       res.send("success");
