@@ -76,22 +76,25 @@
 				var city = document.getElementById("cityN").value;
 				var state = document.getElementById("stateN").value;
 
-				var params = JSON.stringify({});
+				var params = JSON.stringify({
+					"first" : first,
+					"last" : last,
+					"mail" : mail,
+					"city" : city,
+					"state": state,
+					"modify" : modify
+				});
+
 			  	var xhr = new XMLHttpRequest();
-			  	xhr.open('post', '/getContacts', true);
+			  	xhr.open('post', '/addContact', true);
 			  	xhr.setRequestHeader('Content-type', 'application/json');
 
 			  	xhr.onload = function()
 			  	{
-			        var response = this.responseText;
-			        // console.log(response);
-			        if (this.responseText == "Error no session")
+			        if (this.responseText == "success")
 			        {
 			            // here
-			            setTimeout(function()
-						{
-						 window.location.href = "http://localhost:3000/contacts";
-						}, 1);
+			            alert("Contact modified!")
 			        }
 			        else // a JSON object (the contacts) was returned
 			        {
@@ -121,35 +124,36 @@
 				var mail = document.getElementById("mail").value;
 				var city = document.getElementById("city").value;
 				var state = document.getElementById("state").value;
-			}
-			var params = JSON.stringify(
-			{
-				"first" : first,
-				"last" : last,
-				"mail" : mail,
-				"city" : city,
-				"state": state,
-				"modify" : modify
-			});
 
-			var xhr = new XMLHttpRequest();
-			xhr.open('post', '/addContact', true);
-			xhr.setRequestHeader('Content-type', 'application/json');
-			xhr.onload = function()
-			{
-				console.log(this.responseText);
-				if (this.responseText == "success")
+				var params = JSON.stringify(
 				{
-					alert("Contact Added!");
-					// setTimeout(function()
-					// {
-					//  window.location.href = "http://localhost:3000/contacts";
-					// }, 1000);
+					"first" : first,
+					"last" : last,
+					"mail" : mail,
+					"city" : city,
+					"state": state,
+					"modify" : modify
+				});
 
+				var xhr = new XMLHttpRequest();
+				xhr.open('post', '/addContact', true);
+				xhr.setRequestHeader('Content-type', 'application/json');
+				xhr.onload = function()
+				{
+					console.log(this.responseText);
+					if (this.responseText == "success")
+					{
+						alert("Contact Added!");
+						// setTimeout(function()
+						// {
+						//  window.location.href = "http://localhost:3000/contacts";
+						// }, 1000);
+
+					}
 				}
-			}
 
-			xhr.send(params);
+				xhr.send(params);
+				}
 		}
 	</script>
 </html>

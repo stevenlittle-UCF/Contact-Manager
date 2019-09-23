@@ -51,9 +51,9 @@
 	{
 		var output = '<div id="' + val.first_name + '"' + '<h5 onclick="showOptions(\'' + val.first_name + '\')">' + val.first_name +
 					 " " + val.last_name + '</h5></div>' +
-					 '<div id="more' + val.first_name + '"style="display:none" onclick="showMore(\'' + val.first_name + '\')">show more</div>' +
-					 '<div id="modify' + val.first_name + '"style="display:none" onclick="modContact()">modify</div>' +
-					 '<div id="delete' + val.first_name + '"style="display:none" onclick="delContact(\'' +
+					 '<div id="more' + val.first_name + '"style="display:none; padding-left:10px" onclick="showMore(\'' + val.first_name + '\')">show more</div>' +
+					 '<div id="modify' + val.first_name + '"style="display:none; padding-left:10px" onclick="modContact()">modify</div>' +
+					 '<div id="delete' + val.first_name + '"style="display:none; padding-left:10px" onclick="delContact(\'' +
 					 val.user_id + '\',\'' + val.first_name + '\',\'' + val.last_name + '\')">delete</div>';
 		return output;
 	}
@@ -85,6 +85,8 @@
 		var last;
 		var city;
 		var state;
+		var email;
+
 		var contactList = JSON.parse(contacts);
 		for (var i in contactList)
 		{
@@ -94,17 +96,18 @@
 				last = contactList[i].last_name;
 				city = contactList[i].city;
 				state = contactList[i].state;
+				//email = contactList[i].email;
 			}
 		}
-
 		alert("First name: " + first + "\n" +
 			  "Last name: " + last + "\n" +
 			  "City: " + city + "\n" +
-			  "State: " + state);
+			  "State: " + state); /* + "\n" +
+			  "Email: " + email); */
 	}
 	function modContact()
 	{
-
+		window.location.href = "http://localhost:3000/add";
 	}
 	function delContact(uid, first, last)
 	{
@@ -166,7 +169,6 @@
             {
                 contacts = response;
             }
-            // console.log(contacts);
       	}
 
       	xhr.send(params);
@@ -185,9 +187,6 @@
 		}, 10000);
 	}
 	// Format 'contacts' object retrieved from aws api back to string for regex search
-	
-
-
 	$('#txt-search').keyup(function()
 	{
 			contactList = contacts;
