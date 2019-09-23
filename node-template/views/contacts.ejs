@@ -1,11 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Contact Manager</title>
+	
+<style>
+	
+body {
+	background-color: #D3D3D3;
+	position: relative;
+	font-family:  Trebuchet MS;
+}
+
+#txt-search {
+	border-radius: 4px;
+	border: 2px solid #000000;
+}
+
+#but {
+	text-align: center;
+}
+
+#lgo {
+	background-color: #E9967A;
+	color: black;
+	border: 2px solid #000000;
+	padding: 5px 5px;
+	text-align: center;
+	text-decoration: none;
+	border-radius: 4px;
+	font-weight: bold;
+}
+
+#man {
+	background-color: #90EE90;
+	color: black;
+	border: 2px solid #000000;
+	padding: 5px 5px;
+	text-align: center;
+	text-decoration: none;
+	border-radius: 4px;
+	font-weight: bold;
+	margin-right: 30px;
+}
+
+#cont {
+	text-align: center;
+}
+
+</style>
+</head>
+
 <!-- <a href="/contacts" role="button"> view contacts</a> -->
-<a href="/add" role="button"> manage contacts </a>
-<a href="/" role="button" onclick="DoLogout()"> logout </a>
+<div id="but">
+<a href="/add" role="button" id="man"> Manage Contacts </a>
+<a href="/" role="button" onclick="DoLogout()" id="lgo"> Logout </a>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-<div class="container" style="padding:50px 550px;">
+</div>
+
+<div class="container" style="padding:50px 550px;" id="cont">
 	<form role="form">
 		<div class="form-group">
 
@@ -18,7 +74,6 @@
 </div>
 
 <script>
-
 	var contacts;
 	function doLogout()
 	{
@@ -43,7 +98,6 @@
 		}
 		xhr.send(params);
 	}
-
 	function showContact(val)
 	{
 		var output = '<div id="' + val.first_name + '"' + '<h5 onclick="showOptions(\'' + val.first_name + '\')">' + val.first_name +
@@ -54,7 +108,6 @@
 					 val.user_id + '\',\'' + val.first_name + '\',\'' + val.last_name + '\')">delete</div>';
 		return output;
 	}
-
 	function showOptions(contact)
 	{
 		var showModify = 'modify' + contact;
@@ -63,7 +116,6 @@
 		var toModify = document.getElementById(showModify);
 		var toDelete = document.getElementById(showDelete);
 		var toShowMore = document.getElementById(showMore);
-
 		if (toModify.style.display == "none")
 		{
 			toModify.style.display = "block";
@@ -77,7 +129,6 @@
 			toShowMore.style.display = "none";
 		}
 	}
-
 	function showMore(contact)
 	{
 		var first;
@@ -85,7 +136,6 @@
 		var city;
 		var state;
 		var email;
-
 		var contactList = JSON.parse(contacts);
 		for (var i in contactList)
 		{
@@ -104,12 +154,10 @@
 			  "State: " + state); /* + "\n" +
 			  "Email: " + email); */
 	}
-
 	function modContact()
 	{
 		window.location.href = "http://localhost:3000/add";
 	}
-
 	function delContact(uid, first, last)
 	{
 		var params = JSON.stringify({
@@ -141,7 +189,6 @@
 		}
 		xhr.send(params);
 	}
-
 	// On load, check if there is a username var defined, if not error
 	// else, username is returned. Make ajax call to api for username, store
 	// the response (the contacts).
@@ -153,7 +200,6 @@
       	var xhr = new XMLHttpRequest();
       	xhr.open('post', '/getContacts', true);
       	xhr.setRequestHeader('Content-type', 'application/json');
-
       	xhr.onload = function()
       	{
             var response = this.responseText;
@@ -170,9 +216,7 @@
                 contacts = response;
             }
       	}
-
       	xhr.send(params);
-
       	setTimeout(function()
 		{
 			var contactList;
@@ -186,7 +230,6 @@
 			$('#filter').html(output);
 		}, 10000);
 	}
-
 	// Format 'contacts' object retrieved from aws api back to string for regex search
 	$('#txt-search').keyup(function()
 	{
@@ -194,7 +237,6 @@
 			contactList = JSON.parse(contactList);
 			var output = '';
 			var searchField = $(this).val();
-
 			if (searchField === '')
 			{
 				$.each(contactList, function(index, val) 
@@ -216,7 +258,6 @@
 			}
 			$('#filter').html(output);
 	});
-
 </script>
 
 </html>
