@@ -188,6 +188,7 @@ router.post('/amLogged', function(req, res)
 router.post('/getContacts', function(req, res) 
 {
   sess = req.session;
+  console.log(sess);
 
   if (sess.uName)
   {
@@ -197,7 +198,7 @@ router.post('/getContacts', function(req, res)
     })
     .then(function (response) // response contains the JSON object
     {
-      //console.log(response);
+      console.log(response);
       res.json(response.data);
     })
     .catch(function(error)
