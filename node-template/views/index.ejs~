@@ -186,7 +186,7 @@ ul {
 				hideOrShow("displaySignup", false);
 				  setTimeout(function()
 				  {
-					  window.location.href = "http://localhost:3000/contacts";
+					  window.location.href = "http://onestopcontacts.com/contacts";
 				  }, 1000);
           		return;
         	}
