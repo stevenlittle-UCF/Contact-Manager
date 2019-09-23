@@ -64,9 +64,9 @@ router.post('/login', function(req, res)
       {
         sess.uName = uName;
         res.send("success");
-	res.render('/contacts',{
-    title: ' CONTACTs'
- 		 })
+	//res.render('/contacts',{
+    //title: ' CONTACTs'
+ 		// })
       }
       else
       {
@@ -198,7 +198,7 @@ router.post('/getContacts', function(req, res)
     })
     .then(function (response) // response contains the JSON object
     {
-      console.log(response);
+      //console.log(response);
       res.json(response.data);
     })
     .catch(function(error)

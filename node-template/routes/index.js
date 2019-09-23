@@ -64,9 +64,9 @@ router.post('/login', function(req, res)
       {
         sess.uName = uName;
         res.send("success");
-	res.render('/contacts',{
-    title: ' CONTACTs'
- 		 })
+	//res.render('/contacts',{
+    //title: ' CONTACTs'
+ 		// })
       }
       else
       {
@@ -188,7 +188,7 @@ router.post('/amLogged', function(req, res)
 router.post('/getContacts', function(req, res) 
 {
   sess = req.session;
-  console.log(sess);
+  //console.log(sess);
 
   if (sess.uName)
   {
@@ -248,7 +248,7 @@ router.post('/addContact', function(req, res)
   })
   .then(function (response)
   {
-    console.log(response);
+    //console.log(response);
     if (response.data == "contact added")
     {
       res.send("success");
@@ -283,7 +283,7 @@ router.post('/deleteContact', function(req, res)
   })
   .then(function (response)
   {
-    console.log(response);
+   // console.log(response);
     if (response.data == "delete")
     {
       res.send("success");
