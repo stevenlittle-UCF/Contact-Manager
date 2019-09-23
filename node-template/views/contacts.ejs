@@ -1,19 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<!-- <a href="/contacts" role="button"> view contacts</a> -->
 <a href="/add" role="button"> manage contacts </a>
 <a href="/" role="button" onclick="DoLogout()"> logout </a>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <div class="container" style="padding:50px 550px;">
-	<form role="form">
-		<div class="form-group">
-
-		</div>
-	</form>
 	<div id="delConfirm"></div>
 	<input type="text" class="form-control input-lg" id="txt-search"
-	placeholder="Who to lookup?" autocomplete="off"> 
+	placeholder="Search for contacts" autocomplete="off"> 
 	<div id="filter"></div>
 </div>
 
@@ -46,10 +40,11 @@
 
 	function showContact(val)
 	{
+		// I apologize for this line length
 		var output = '<div id="' + val.first_name + '"' + '<h5 onclick="showOptions(\'' + val.first_name + '\')">' + val.first_name +
 					 " " + val.last_name + '</h5></div>' +
 					 '<div id="more' + val.first_name + '"style="display:none; padding-left:10px" onclick="showMore(\'' + val.first_name + '\')">show more</div>' +
-					 '<div id="modify' + val.first_name + '"style="display:none; padding-left:10px" onclick="modContact()">modify</div>' +
+					 '<div id="modify' + val.first_name + '"style="display:none; padding-left:10px" onclick="modContact(\'test\')">modify</div>' +
 					 '<div id="delete' + val.first_name + '"style="display:none; padding-left:10px" onclick="delContact(\'' +
 					 val.user_id + '\',\'' + val.first_name + '\',\'' + val.last_name + '\')">delete</div>';
 		return output;
@@ -86,18 +81,20 @@
 		var state;
 		var email;
 
-		var contactList = JSON.parse(contacts);
-		for (var i in contactList)
+		// Can be done much quicker
+		var list = JSON.parse(contacts);
+		for (var i in list)
 		{
-			if (contactList[i].first_name == contact)
+			if (list[i].first_name == contact)
 			{
-				first = contactList[i].first_name;
-				last = contactList[i].last_name;
-				city = contactList[i].city;
-				state = contactList[i].state;
+				first = list[i].first_name;
+				last = list[i].last_name;
+				city = list[i].city;
+				state = list[i].state;
 				//email = contactList[i].email;
 			}
 		}
+
 		alert("First name: " + first + "\n" +
 			  "Last name: " + last + "\n" +
 			  "City: " + city + "\n" +
@@ -105,7 +102,7 @@
 			  "Email: " + email); */
 	}
 
-	function modContact()
+	function modContact(name)
 	{
 		window.location.href = "http://localhost:3000/add";
 	}
@@ -117,6 +114,7 @@
 			"first_name" : first,
 			"last_name" : last
 		});
+
 		// start ajax call
 		var xhr = new XMLHttpRequest();
 		xhr.open('post', '/deleteContact', true);
@@ -150,30 +148,29 @@
 	{
 		// build JSON
 		var params = JSON.stringify({});
-      	var xhr = new XMLHttpRequest();
-      	xhr.open('post', '/getContacts', true);
-      	xhr.setRequestHeader('Content-type', 'application/json');
+  	var xhr = new XMLHttpRequest();
+  	xhr.open('post', '/getContacts', true);
+  	xhr.setRequestHeader('Content-type', 'application/json');
 
-      	xhr.onload = function()
-      	{
-            var response = this.responseText;
-            if (this.responseText == "Error no session")
-            {
-                // here
-                setTimeout(function()
-				{
-				 window.location.href = "http://localhost:3000/";
-				}, 1);
-            }
-            else // a JSON object (the contacts) was returned
-            {
-                contacts = response;
-            }
-      	}
+  	xhr.onload = function()
+  	{
+        var response = this.responseText;
+        if (this.responseText == "Error no session")
+        {
+	        setTimeout(function()
+					{
+					
+					window.location.href = "http://localhost:3000/";
+					}, 1);
+        }
+        else // a JSON object (the contacts) was returned
+        {
+            contacts = response;
+        }
+  	}
+  	xhr.send(params);
 
-      	xhr.send(params);
-
-      	setTimeout(function()
+  	setTimeout(function()
 		{
 			var contactList;
 			contactList = contacts;

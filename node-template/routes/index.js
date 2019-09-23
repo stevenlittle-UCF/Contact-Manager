@@ -146,7 +146,6 @@ router.post('/register', function(req, res)
         }
         else
         {
-          // console.log(response.data);
           res.send("Unhandled response");
         }
       })
@@ -293,19 +292,17 @@ router.post('/deleteContact', function(req, res)
   .catch(function (error)
   {
     console.log(error);
-  })
-})
+  });
+});
 
-router.get('/contacts', function(req, res, next) {
-  //get contacts from aws api.. 
-  //var contacts_json = JSON.parse(fs.readFileSync('./data/contacts.json', 'utf8'));  //mimic what API returns
-  
+router.get('/contacts', function(req, res, next) 
+{ 
   var contacts_json;
+  
   res.render('contacts', {
     title: 'AWS RESULT',
     contacts: contacts_json
   });
-
 });
 
 //router.get('/remove/:id', function(req, res, next) {});

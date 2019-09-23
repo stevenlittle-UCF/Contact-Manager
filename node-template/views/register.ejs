@@ -5,35 +5,36 @@
 
 <script>
 
-    var uName;
+  var uName;
 
-window.onload = load;
-    function load()
-    {
-		// build JSON
-		var params = JSON.stringify({});
-      	var xhr = new XMLHttpRequest();
-      	xhr.open('post', '/amLogged', true);
-      	xhr.setRequestHeader('Content-type', 'application/json');
+  window.onload = load;
+  function load()
+  {
+  // build JSON
+  var params = JSON.stringify({});
+    	var xhr = new XMLHttpRequest();
+    	xhr.open('post', '/amLogged', true);
+    	xhr.setRequestHeader('Content-type', 'application/json');
 
-      	xhr.onload = function()
-      	{
-            var response = this.responseText;
-            if (this.responseText == "ERROR #123")
-            {
-                document.getElementById("test").innerHTML = "I am no sess";
-                // here
-            }
-            else
-            {
-                uName = this.responseText;
+    	xhr.onload = function()
+    	{
+          var response = this.responseText;
+          if (this.responseText == "ERROR #123")
+          {
+              document.getElementById("test").innerHTML = "I am no sess";
+              // here
+          }
+          else
+          {
+              uName = this.responseText;
 
-                // ajax call
-            }
-      	}
+              // ajax call
+          }
+    	}
 
-      	xhr.send(params);
-    }
+    	xhr.send(params);
+  }
+  
 </script>
 
 

@@ -34,7 +34,7 @@
 				{
 					setTimeout(function()
 					{
-					 window.location.href = "http://localhost:3000/";
+						window.location.href = "http://localhost:3000/";
 					}, 1000);
 					return;
 				}
@@ -58,7 +58,7 @@
 					//redirect
 					setTimeout(function()
 					{
-					 window.location.href = "http://localhost:3000/";
+						window.location.href = "http://localhost:3000/";
 					}, 1);
 				}
 				else
@@ -69,6 +69,8 @@
 			xhr.send(params);
 		}
 
+		// If modify == true, send modify api call
+		//    modify == false, send addContact api call
 		function addUser(modify)
 		{
 			if (modify == "true")
@@ -78,7 +80,6 @@
 				var mail = document.getElementById("mailN").value;
 				var city = document.getElementById("cityN").value;
 				var state = document.getElementById("stateN").value;
-
 
 				// Check if contact exists
 				var params = JSON.stringify({})
